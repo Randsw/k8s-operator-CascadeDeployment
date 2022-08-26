@@ -1,0 +1,29 @@
+- op: replace
+  path: "/metadata/name"
+  value: cascademanualoperator-ip-fail-first
+- op: replace
+  path: "/spec/scenarioconfig/cascademodules/0/modulename"
+  value: fail-cascademanualoperator-ip-fail-first
+- op: replace
+  path: "/spec/scenarioconfig/cascademodules/1/modulename"
+  value: binarization-cascademanualoperator-ip-fail-first
+- op: replace
+  path: "/spec/scenarioconfig/cascademodules/2/modulename"
+  value: diff-cascademanualoperator-ip-fail-first
+- op: replace
+  path: "/spec/scenarioconfig/cascademodules/0/template/spec/containers/0/name"
+  value: fail
+- op: replace
+  path: "/spec/scenarioconfig/cascademodules/0/template/spec/containers/0/image"
+  value: busybox:1.35
+- op: add
+  path: "/spec/scenarioconfig/cascademodules/0/template/spec/containers/0/command"
+  value: [ "/bin/sh", "-c", "--" ]
+- op: add
+  path: "/spec/scenarioconfig/cascademodules/0/template/spec/containers/0/args"
+  value: [ "sleep 30; exit 1;" ]
+- op: add
+  path: "/spec/template/spec/containers/0/env/0"
+  value:  
+    name: SCENARIO_NAME
+    value: cascadescenario-ip-fail-first

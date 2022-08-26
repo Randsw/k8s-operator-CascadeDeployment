@@ -1,0 +1,19 @@
+domain: cascade.net
+layout:
+- go.kubebuilder.io/v3
+plugins:
+  manifests.sdk.operatorframework.io/v2: {}
+  scorecard.sdk.operatorframework.io/v2: {}
+projectName: cascadeautooperator
+repo: github.com/randsw/cascadeAuto-operator
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: cascade.net
+  group: cascade
+  kind: CascadeAutoOperator
+  path: github.com/randsw/cascadeAuto-operator/api/v1alpha1
+  version: v1alpha1
+version: "3"

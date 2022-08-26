@@ -1,0 +1,6 @@
+apiVersion: cascade.cascade.net/v1alpha1
+kind: CascadeAutoOperator
+metadata:
+  name: cascadeautooperator-sample
+spec:
+  # TODO(user): Add fields here

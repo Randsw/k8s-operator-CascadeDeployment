@@ -1,0 +1,8 @@
+- op: replace
+  path: "/metadata/name"
+  value: cascademanualoperator-ip
+- op: add
+  path: "/spec/template/spec/containers/0/env/0"
+  value:  
+    name: SCENARIO_NAME
+    value: cascadescenario-ip

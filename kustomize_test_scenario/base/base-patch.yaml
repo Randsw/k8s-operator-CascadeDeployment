@@ -1,0 +1,20 @@
+- op: add
+  path: "/spec/template/spec/containers/0/env/0"
+  value:  
+    name: STATUS_SERVER
+    value: http://192.168.198.112:8000
+- op: add
+  path: "/spec/template/spec/containers/0/env/0"
+  value:  
+    name: BROCKER_ADDRESS
+    value: kafka-service.kafka.svc
+- op: add
+  path: "/spec/template/spec/containers/0/env/0"
+  value:  
+    name: TOPIC
+    value: source
+- op: add
+  path: "/spec/template/spec/containers/0/env/0"
+  value:  
+    name: SOURCE_ID
+    value: source1_X5

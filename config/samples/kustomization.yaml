@@ -1,0 +1,4 @@
+## Append samples you want in your CSV to this file as resources ##
+resources:
+- cascade_v1alpha1_cascadeautooperator.yaml
+#+kubebuilder:scaffold:manifestskustomizesamples
