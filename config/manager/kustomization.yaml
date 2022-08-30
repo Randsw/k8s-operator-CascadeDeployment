@@ -13,3 +13,4 @@ kind: Kustomization
 images:
 - name: controller
   newName: ghcr.io/randsw/cascadeautooperator
+  newTag: 0.0.1

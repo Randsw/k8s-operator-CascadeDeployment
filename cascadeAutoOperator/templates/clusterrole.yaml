@@ -1,0 +1,13 @@
+{{- range .Values.cluster_roles }}
+---
+{{- if eq .enabled true }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    {{- include "cascadeAutoOperator.labels" $ | nindent 4 }}
+  name: {{ include "cascadeAutoOperator.name" $ }}-{{ .name }}
+rules: 
+{{ toYaml .rules }}
+{{- end }}
+{{- end }}

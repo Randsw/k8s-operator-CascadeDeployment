@@ -1,15 +1,15 @@
 - op: replace
   path: "/metadata/name"
-  value: cascademanualoperator-ip-fail-first
+  value: cascadeautooperator-ip-fail-first
 - op: replace
   path: "/spec/scenarioconfig/cascademodules/0/modulename"
-  value: fail-cascademanualoperator-ip-fail-first
+  value: fail-cascadeautooperator-ip-fail-first
 - op: replace
   path: "/spec/scenarioconfig/cascademodules/1/modulename"
-  value: binarization-cascademanualoperator-ip-fail-first
+  value: binarization-cascadeautooperator-ip-fail-first
 - op: replace
   path: "/spec/scenarioconfig/cascademodules/2/modulename"
-  value: diff-cascademanualoperator-ip-fail-first
+  value: diff-cascadeautooperator-ip-fail-first
 - op: replace
   path: "/spec/scenarioconfig/cascademodules/0/template/spec/containers/0/name"
   value: fail

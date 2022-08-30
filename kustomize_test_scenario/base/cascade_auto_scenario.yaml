@@ -5,6 +5,7 @@ metadata:
   labels:
     app: cascade
 spec:
+  replicas: 1
   template:
     spec:
       containers:
@@ -22,7 +23,7 @@ spec:
       volumes:
         - name: config-volume
           configMap:
-            name: cascademanualoperator-ip-cm # This field is mutable
+            name: cascadeautooperator-ip-2-cm # This field is mutable
       restartPolicy: Always
   scenarioconfig:
     cascademodules:

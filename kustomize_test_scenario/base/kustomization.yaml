@@ -15,6 +15,6 @@ patches:
 
 images:
 - name: ghcr.io/randsw/cascadescenariocontroller_v2
-  newTag: 0.2.6
+  newTag: 0.1.1
 
 namespace: image-process

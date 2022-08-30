@@ -1,18 +1,15 @@
 - op: replace
   path: "/metadata/name"
-  value: cascademanualoperator-ip-fail-last
-- op: replace
-  path: "/spec/scenarioconfig/cascademodules/0/configuration/s3path"
-  value: http://192.168.198.112:9000/incoming/ab3e749f-9f34-4d80-906c-69cfa64317fd.tgz
+  value: cascadeautooperator-ip-fail-last
 - op: replace
   path: "/spec/scenarioconfig/cascademodules/0/modulename"
-  value: grayscale-cascademanualoperator-ip-fail-last
+  value: grayscale-cascadeautooperator-ip-fail-last
 - op: replace
   path: "/spec/scenarioconfig/cascademodules/1/modulename"
-  value: binarization-cascademanualoperator-ip-fail-last
+  value: binarization-cascadeautooperator-ip-fail-last
 - op: replace
   path: "/spec/scenarioconfig/cascademodules/2/modulename"
-  value: fail-cascademanualoperator-ip-fail-last
+  value: fail-cascadeautooperator-ip-fail-last
 - op: replace
   path: "/spec/scenarioconfig/cascademodules/2/template/spec/containers/0/name"
   value: fail

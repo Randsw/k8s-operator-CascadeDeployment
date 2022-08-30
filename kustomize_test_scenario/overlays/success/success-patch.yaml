@@ -1,6 +1,6 @@
 - op: replace
   path: "/metadata/name"
-  value: cascademanualoperator-ip
+  value: cascadeautooperator-ip
 - op: add
   path: "/spec/template/spec/containers/0/env/0"
   value:  
