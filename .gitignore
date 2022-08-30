@@ -8,6 +8,8 @@
 bin
 testbin/*
 
+
+
 # Test binary, build with `go test -c`
 *.test
 
@@ -23,4 +25,4 @@ testbin/*
 *.swp
 *.swo
 *~
-*test_crd.yaml
+test_crd.yaml
