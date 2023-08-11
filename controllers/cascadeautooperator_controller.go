@@ -20,7 +20,6 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/go-logr/logr"
 	apps "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
@@ -38,7 +37,6 @@ import (
 type CascadeAutoOperatorReconciler struct {
 	client.Client
 	Scheme *runtime.Scheme
-	Log    logr.Logger
 }
 
 //+kubebuilder:rbac:groups=cascade.cascade.net,resources=cascadeautooperators,verbs=get;list;watch;create;update;patch;delete
@@ -62,7 +60,6 @@ func (r *CascadeAutoOperatorReconciler) Reconcile(ctx context.Context, req ctrl.
 	logger.Info("Reconciling CascadeAutoOperator", "request name", req.Name, "request namespace", req.Namespace)
 
 	instance := &cascadev1alpha1.CascadeAutoOperator{}
-	//instanceType := "CascadeAutoOperator"
 
 	err := r.Get(ctx, req.NamespacedName, instance)
 	if err != nil {
@@ -127,6 +124,7 @@ func (r *CascadeAutoOperatorReconciler) SetupWithManager(mgr ctrl.Manager) error
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&cascadev1alpha1.CascadeAutoOperator{}).
 		Owns(&apps.Deployment{}).
+		Owns(&corev1.ConfigMap{}).
 		Complete(r)
 }
 
