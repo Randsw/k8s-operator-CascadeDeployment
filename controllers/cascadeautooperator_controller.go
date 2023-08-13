@@ -28,9 +28,11 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 	"sigs.k8s.io/controller-runtime/pkg/log"
 
 	cascadev1alpha1 "github.com/randsw/cascadeAuto-operator/api/v1alpha1"
+	"github.com/randsw/cascadeAuto-operator/monitoring"
 )
 
 // CascadeAutoOperatorReconciler reconciles a CascadeAutoOperator object
@@ -38,6 +40,8 @@ type CascadeAutoOperatorReconciler struct {
 	client.Client
 	Scheme *runtime.Scheme
 }
+
+const finalizer = "metrics.cascade.cascade.net/finalizer"
 
 //+kubebuilder:rbac:groups=cascade.cascade.net,resources=cascadeautooperators,verbs=get;list;watch;create;update;patch;delete
 //+kubebuilder:rbac:groups=cascade.cascade.net,resources=cascadeautooperators/status,verbs=get;update;patch
@@ -74,9 +78,25 @@ func (r *CascadeAutoOperatorReconciler) Reconcile(ctx context.Context, req ctrl.
 		logger.Error(err, "Failed to get CascadeAutoOperator.")
 		return ctrl.Result{}, err
 	}
-	// Not prepared for deletion
-	if !instance.GetDeletionTimestamp().IsZero() {
-		logger.Info("Prepared for delete")
+	// Add finalizer for metrics
+	if !controllerutil.ContainsFinalizer(instance, finalizer) {
+		logger.Info("Adding Finalizer for CascadeAutoOperator")
+		controllerutil.AddFinalizer(instance, finalizer)
+		if err = r.Update(ctx, instance); err != nil {
+			logger.Error(err, "Failed to update custom resource to add finalizer")
+			return ctrl.Result{}, err
+		}
+	}
+	isApplicationMarkedToBeDeleted := instance.GetDeletionTimestamp() != nil
+	if isApplicationMarkedToBeDeleted {
+		if controllerutil.ContainsFinalizer(instance, finalizer) {
+			r.finalizeApplication(ctx, instance)
+			controllerutil.RemoveFinalizer(instance, finalizer)
+			err := r.Update(ctx, instance)
+			if err != nil {
+				return ctrl.Result{}, err
+			}
+		}
 		return ctrl.Result{}, nil
 	}
 
@@ -86,6 +106,8 @@ func (r *CascadeAutoOperatorReconciler) Reconcile(ctx context.Context, req ctrl.
 	if err != nil && errors.IsNotFound(err) {
 		// Define a new Deployment
 		deployment := r.createDeployment(instance, ctx)
+		// Increment instance count
+		monitoring.CascadeAutoCurrentInstanceCount.Inc()
 		logger.Info("Creating a new Deployment", "Deployment.Namespace", deployment.Namespace, "Deployment.Name", deployment.Name)
 		err = r.Create(ctx, deployment)
 		if err != nil {
@@ -128,23 +150,22 @@ func (r *CascadeAutoOperatorReconciler) SetupWithManager(mgr ctrl.Manager) error
 		Complete(r)
 }
 
-
 func (r *CascadeAutoOperatorReconciler) createDeployment(instance *cascadev1alpha1.CascadeAutoOperator, ctx context.Context) *apps.Deployment {
-    logger := log.FromContext(ctx)
-    ls := labelsForTenancyFrontend(instance.Name, instance.Name)
-    replicas := instance.Spec.Replicas
+	logger := log.FromContext(ctx)
+	ls := labelsForTenancyFrontend(instance.Name, instance.Name)
+	replicas := instance.Spec.Replicas
 
-    // Using the context to log information
-    logger.Info("Logging: Creating a new Deployment", "Replicas", replicas)
-    message := "Logging: (Name: " + instance.Name + "-deploy" + ") \n"
-    logger.Info(message)
-    message = "Logging: (Namespace: " + instance.Namespace + ") \n"
-    logger.Info(message)
+	// Using the context to log information
+	logger.Info("Logging: Creating a new Deployment", "Replicas", replicas)
+	message := "Logging: (Name: " + instance.Name + "-deploy" + ") \n"
+	logger.Info(message)
+	message = "Logging: (Namespace: " + instance.Namespace + ") \n"
+	logger.Info(message)
 
-    for key, value := range ls {
-        message = "Logging: (Key: [" + key + "] Value: [" + value + "]) \n"
-        logger.Info(message)
-    }
+	for key, value := range ls {
+		message = "Logging: (Key: [" + key + "] Value: [" + value + "]) \n"
+		logger.Info(message)
+	}
 
 	var podSpec = instance.Spec.Template
 
@@ -153,24 +174,24 @@ func (r *CascadeAutoOperatorReconciler) createDeployment(instance *cascadev1alph
 	podSpec.Spec.Volumes[0].ConfigMap.Name = instance.Name + "-cm"
 	podSpec.Spec.ServiceAccountName = "cascade"
 
-    dep := &apps.Deployment{
-        ObjectMeta: metav1.ObjectMeta{
-            Name:      instance.Name + "-deploy",
-            Namespace: instance.Namespace,
+	dep := &apps.Deployment{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      instance.Name + "-deploy",
+			Namespace: instance.Namespace,
 			Labels:    instance.Labels,
-        },
-        Spec: apps.DeploymentSpec{
-            Replicas: &replicas,
-            Selector: &metav1.LabelSelector{
-                MatchLabels: ls,
-            },
-            Template: podSpec,// PodSec
-        }, // Spec
-    } // Deployment
+		},
+		Spec: apps.DeploymentSpec{
+			Replicas: &replicas,
+			Selector: &metav1.LabelSelector{
+				MatchLabels: ls,
+			},
+			Template: podSpec, // PodSec
+		}, // Spec
+	} // Deployment
 
-    // Set TenancyFrontend instance as the owner and controller
-    ctrl.SetControllerReference(instance, dep, r.Scheme)
-    return dep
+	// Set TenancyFrontend instance as the owner and controller
+	ctrl.SetControllerReference(instance, dep, r.Scheme)
+	return dep
 }
 
 func (r *CascadeAutoOperatorReconciler) getCm(instance *cascadev1alpha1.CascadeAutoOperator) *corev1.ConfigMap {
@@ -192,4 +213,8 @@ func (r *CascadeAutoOperatorReconciler) getCm(instance *cascadev1alpha1.CascadeA
 
 func labelsForTenancyFrontend(name_app string, name_cr string) map[string]string {
 	return map[string]string{"app": name_app, "cascadeautooperator_cr": name_cr}
+}
+
+func (reconciler *CascadeAutoOperatorReconciler) finalizeApplication(ctx context.Context, application *cascadev1alpha1.CascadeAutoOperator) {
+	monitoring.CascadeAutoCurrentInstanceCount.Dec()
 }

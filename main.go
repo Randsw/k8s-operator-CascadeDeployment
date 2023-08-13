@@ -33,6 +33,7 @@ import (
 
 	cascadev1alpha1 "github.com/randsw/cascadeAuto-operator/api/v1alpha1"
 	"github.com/randsw/cascadeAuto-operator/controllers"
+	"github.com/randsw/cascadeAuto-operator/monitoring"
 	//+kubebuilder:scaffold:imports
 )
 
@@ -46,6 +47,7 @@ func init() {
 
 	utilruntime.Must(cascadev1alpha1.AddToScheme(scheme))
 	//+kubebuilder:scaffold:scheme
+	monitoring.RegisterMetrics()
 }
 
 func main() {
