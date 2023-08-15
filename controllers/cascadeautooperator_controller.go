@@ -152,7 +152,7 @@ func (r *CascadeAutoOperatorReconciler) SetupWithManager(mgr ctrl.Manager) error
 
 func (r *CascadeAutoOperatorReconciler) createDeployment(instance *cascadev1alpha1.CascadeAutoOperator, ctx context.Context) *apps.Deployment {
 	logger := log.FromContext(ctx)
-	ls := labelsForTenancyFrontend(instance.Name, instance.Name)
+	ls := labelsForCascadeAutoOperator(instance.Name, instance.Name)
 	replicas := instance.Spec.Replicas
 
 	// Using the context to log information
@@ -189,7 +189,7 @@ func (r *CascadeAutoOperatorReconciler) createDeployment(instance *cascadev1alph
 		}, // Spec
 	} // Deployment
 
-	// Set TenancyFrontend instance as the owner and controller
+	// Set CascadeAutoOperator instance as the owner and controller
 	ctrl.SetControllerReference(instance, dep, r.Scheme)
 	return dep
 }
@@ -211,7 +211,7 @@ func (r *CascadeAutoOperatorReconciler) getCm(instance *cascadev1alpha1.CascadeA
 	return cm
 }
 
-func labelsForTenancyFrontend(name_app string, name_cr string) map[string]string {
+func labelsForCascadeAutoOperator(name_app string, name_cr string) map[string]string {
 	return map[string]string{"app": name_app, "cascadeautooperator_cr": name_cr}
 }
 

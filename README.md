@@ -20,7 +20,7 @@
 
 `docker push ghcr.io/randsw/cascadeautooperator`
 
-## Image deploy 
+## Image deploy
 
 `make deploy IMG=ghcr.io/randsw/cascadeautooperator`
 
