@@ -151,21 +151,8 @@ func (r *CascadeAutoOperatorReconciler) SetupWithManager(mgr ctrl.Manager) error
 }
 
 func (r *CascadeAutoOperatorReconciler) createDeployment(instance *cascadev1alpha1.CascadeAutoOperator, ctx context.Context) *apps.Deployment {
-	logger := log.FromContext(ctx)
 	ls := labelsForCascadeAutoOperator(instance.Name, instance.Name)
 	replicas := instance.Spec.Replicas
-
-	// Using the context to log information
-	logger.Info("Logging: Creating a new Deployment", "Replicas", replicas)
-	message := "Logging: (Name: " + instance.Name + "-deploy" + ") \n"
-	logger.Info(message)
-	message = "Logging: (Namespace: " + instance.Namespace + ") \n"
-	logger.Info(message)
-
-	for key, value := range ls {
-		message = "Logging: (Key: [" + key + "] Value: [" + value + "]) \n"
-		logger.Info(message)
-	}
 
 	var podSpec = instance.Spec.Template
 
