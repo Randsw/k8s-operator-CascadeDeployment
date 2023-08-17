@@ -9,7 +9,7 @@ image:
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: "0.0.1"
-  resources: 
+  resources:
     limits:
       cpu: 500m
       memory: 128Mi
@@ -83,7 +83,7 @@ cluster_roles:
     name: "manager-role"
     kind: "ServiceAccount"
     labels: {}
-    rules: 
+    rules:
       - apiGroups:
         - "apps"
         resources:
@@ -202,7 +202,3 @@ roles:
         verbs:
         - create
         - patch
-
-
-
-
