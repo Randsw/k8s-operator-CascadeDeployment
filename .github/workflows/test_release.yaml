@@ -3,12 +3,16 @@ on:
   push:
     branches:
       - 'develop'
+      - 'feat/**'
+      - 'fix/**'
+      - 'cicd/**'
+      - 'test/**'
       - 'main'
     paths:
       - '**.go'
   pull_request:
     branches:
-      - 'develop'
+      - 'main'
     paths:
       - '**.go'
       - 'Dockerfile'
