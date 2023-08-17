@@ -9,12 +9,12 @@ on:
       - 'test/**'
       - 'main'
     paths:
-      - 'helm/cascadeAutoOperator/*.yaml'
+      - 'helm/cascadeAutoOperator/**/*.yaml'
   pull_request:
     branches:
       - 'main'
     paths:
-      - 'helm/cascadeAutoOperator/*.yaml'
+      - 'helm/cascadeAutoOperator/**/*.yaml'
 permissions:
   contents: write
 jobs:
@@ -41,12 +41,13 @@ jobs:
         id: changed-files-helm
         uses: tj-actions/changed-files@v35
         with:
-          files: helm/cascadeAutoOperator/*.{yaml,tpl}
+          files: helm/cascadeAutoOperator/**
 
       - name: List all changed files
-        id: list-changed-files
         run: |
-            echo "List all the files that have changed: ${{ steps.changed-files-helm.outputs.all_changed_files }}"
+            for file in ${{ steps.changed-files-helm.outputs.all_changed_files }}; do
+              echo "$file was changed"
+            done
 
       - name: Run chart-testing (lint)
         run: ct lint --config ct.yaml --all
