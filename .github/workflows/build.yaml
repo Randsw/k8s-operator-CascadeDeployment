@@ -19,7 +19,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ghcr.io/randsw/kubeinfo
+          images: ghcr.io/randsw/cascadeautooperator
           flavor: latest=true
           tags: |
             type=ref,event=branch

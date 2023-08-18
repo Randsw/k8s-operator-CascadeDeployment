@@ -17,7 +17,7 @@ type MetricDescription struct {
 var metricDescription = map[string]MetricDescription{
 	"CascadeAutoCurrentInstanceCount": {
 		Name: "cascadeauto_instance_current_count",
-		Help: "Current number of running cascade auto instance",
+		Help: "Current number of running cascadeauto instance",
 		Type: "Gauge",
 	},
 }
