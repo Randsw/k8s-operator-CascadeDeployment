@@ -8,7 +8,7 @@ image:
   repository: ghcr.io/randsw/cascadeautooperator
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "0.0.1"
+  tag: "latest"
   resources:
     limits:
       cpu: 500m
