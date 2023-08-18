@@ -15,8 +15,8 @@ limitations under the License.
 */
 
 // Package v1alpha1 contains API Schema definitions for the cascade v1alpha1 API group
-//+kubebuilder:object:generate=true
-//+groupName=cascade.cascade.net
+// +kubebuilder:object:generate=true
+// +groupName=cascade.cascade.net
 package v1alpha1
 
 import (

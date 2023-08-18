@@ -17,8 +17,8 @@ limitations under the License.
 package v1alpha1
 
 import (
-	corev1 "k8s.io/api/core/v1"
 	apps "k8s.io/api/apps/v1"
+	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -73,7 +73,7 @@ type CascadeAutoOperatorSpec struct {
 
 	//Job configuration for Scenario
 	ScenarioConfig CascadeScenario `json:"scenarioconfig"`
-	
+
 	// Number of desired pods. This is a pointer to distinguish between explicit
 	// zero and not specified. Defaults to 1.
 	// +optional
@@ -120,12 +120,12 @@ type CascadeAutoOperatorSpec struct {
 type CascadeAutoOperatorStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Status    apps.DeploymentStatus 	`json:"status"`
+	Status apps.DeploymentStatus `json:"status"`
 }
 
-//+kubebuilder:object:root=true
-//+kubebuilder:subresource:status
-//+kubebuilder:printcolumn:name="Scenario Status",type="string",JSONPath=".status.status",description="Scenario Deployment status"
+// +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="Scenario Status",type="string",JSONPath=".status.status",description="Scenario Deployment status"
 // CascadeAutoOperator is the Schema for the cascadeautooperators API
 type CascadeAutoOperator struct {
 	metav1.TypeMeta   `json:",inline"`

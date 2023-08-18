@@ -31,6 +31,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 	"sigs.k8s.io/controller-runtime/pkg/log"
 
+	"github.com/go-logr/logr"
 	cascadev1alpha1 "github.com/randsw/cascadeAuto-operator/api/v1alpha1"
 	"github.com/randsw/cascadeAuto-operator/monitoring"
 )
@@ -105,7 +106,7 @@ func (r *CascadeAutoOperatorReconciler) Reconcile(ctx context.Context, req ctrl.
 	err = r.Get(ctx, types.NamespacedName{Name: instance.Name + "-deploy", Namespace: instance.Namespace}, found)
 	if err != nil && errors.IsNotFound(err) {
 		// Define a new Deployment
-		deployment := r.createDeployment(instance, ctx)
+		deployment := r.createDeployment(instance, ctx, &logger)
 		// Increment instance count
 		monitoring.CascadeAutoCurrentInstanceCount.Inc()
 		logger.Info("Creating a new Deployment", "Deployment.Namespace", deployment.Namespace, "Deployment.Name", deployment.Name)
@@ -124,7 +125,7 @@ func (r *CascadeAutoOperatorReconciler) Reconcile(ctx context.Context, req ctrl.
 	foundMap := &corev1.ConfigMap{}
 	err = r.Get(ctx, types.NamespacedName{Name: instance.Name + "-cm", Namespace: instance.Namespace}, foundMap)
 	if err != nil && errors.IsNotFound(err) {
-		cm := r.getCm(instance)
+		cm := r.getCm(instance, &logger)
 		logger.Info("Creating a new ConfigMap", "ConfigMap.Namespace", cm.Namespace, "ConfigMap.Name", cm.Name)
 		err = r.Create(ctx, cm)
 		if err != nil {
@@ -150,22 +151,9 @@ func (r *CascadeAutoOperatorReconciler) SetupWithManager(mgr ctrl.Manager) error
 		Complete(r)
 }
 
-func (r *CascadeAutoOperatorReconciler) createDeployment(instance *cascadev1alpha1.CascadeAutoOperator, ctx context.Context) *apps.Deployment {
-	logger := log.FromContext(ctx)
-	ls := labelsForTenancyFrontend(instance.Name, instance.Name)
+func (r *CascadeAutoOperatorReconciler) createDeployment(instance *cascadev1alpha1.CascadeAutoOperator, ctx context.Context, logger *logr.Logger) *apps.Deployment {
+	ls := labelsForCascadeAutoOperator(instance.Name, instance.Name)
 	replicas := instance.Spec.Replicas
-
-	// Using the context to log information
-	logger.Info("Logging: Creating a new Deployment", "Replicas", replicas)
-	message := "Logging: (Name: " + instance.Name + "-deploy" + ") \n"
-	logger.Info(message)
-	message = "Logging: (Namespace: " + instance.Namespace + ") \n"
-	logger.Info(message)
-
-	for key, value := range ls {
-		message = "Logging: (Key: [" + key + "] Value: [" + value + "]) \n"
-		logger.Info(message)
-	}
 
 	var podSpec = instance.Spec.Template
 
@@ -189,12 +177,15 @@ func (r *CascadeAutoOperatorReconciler) createDeployment(instance *cascadev1alph
 		}, // Spec
 	} // Deployment
 
-	// Set TenancyFrontend instance as the owner and controller
-	ctrl.SetControllerReference(instance, dep, r.Scheme)
+	// Set CascadeAutoOperator instance as the owner and controller
+	err := ctrl.SetControllerReference(instance, dep, r.Scheme)
+	if err != nil {
+		logger.Error(err, "Failed to set CascadeAutoOperator instance as the owner and controller")
+	}
 	return dep
 }
 
-func (r *CascadeAutoOperatorReconciler) getCm(instance *cascadev1alpha1.CascadeAutoOperator) *corev1.ConfigMap {
+func (r *CascadeAutoOperatorReconciler) getCm(instance *cascadev1alpha1.CascadeAutoOperator, logger *logr.Logger) *corev1.ConfigMap {
 	data, _ := json.Marshal(instance.Spec.ScenarioConfig)
 	cm := &corev1.ConfigMap{
 		ObjectMeta: metav1.ObjectMeta{
@@ -207,11 +198,14 @@ func (r *CascadeAutoOperatorReconciler) getCm(instance *cascadev1alpha1.CascadeA
 		},
 	}
 
-	ctrl.SetControllerReference(instance, cm, r.Scheme)
+	err := ctrl.SetControllerReference(instance, cm, r.Scheme)
+	if err != nil {
+		logger.Error(err, "Failed to set CascadeAutoOperator instance as the owner and controller")
+	}
 	return cm
 }
 
-func labelsForTenancyFrontend(name_app string, name_cr string) map[string]string {
+func labelsForCascadeAutoOperator(name_app string, name_cr string) map[string]string {
 	return map[string]string{"app": name_app, "cascadeautooperator_cr": name_cr}
 }
 
