@@ -9,12 +9,12 @@ on:
       - 'test/**'
       - 'main'
     paths:
-      - 'helm/cascadeAutoOperator/**/*.yaml'
+      - 'helm/cascade-auto-operator/**/*.yaml'
   pull_request:
     branches:
       - 'main'
     paths:
-      - 'helm/cascadeAutoOperator/**/*.yaml'
+      - 'helm/cascade-auto-operator/**/*.yaml'
 permissions:
   contents: write
 jobs:
@@ -41,7 +41,7 @@ jobs:
         id: changed-files-helm
         uses: tj-actions/changed-files@v35
         with:
-          files: helm/cascadeAutoOperator/**
+          files: helm/cascade-auto-operator/**
 
       - name: List all changed files
         run: |
