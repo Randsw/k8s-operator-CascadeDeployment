@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/Randsw/k8s-operator-CascadeDeployment/compare/1.0.1...1.0.2) (2023-08-18)
+
+
+### 🛠 Fixes
+
+* **app:** Add more metrics help ([b0623d8](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/b0623d8cb9392a68627873a7e4fd8aac43b84a6f))
+
 ## [1.0.1](https://github.com/Randsw/k8s-operator-CascadeDeployment/compare/1.0.0...1.0.1) (2023-08-18)
 
 
