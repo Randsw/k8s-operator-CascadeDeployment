@@ -16,6 +16,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 )
 
+// Check if deployment and configmap created in cluster after CRD apply
 var _ = Describe("CascadeAutoOperator controller", func() {
 	Context("CascadeAutoOperator controller test", func() {
 
