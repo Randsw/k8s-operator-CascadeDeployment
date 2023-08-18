@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/Randsw/k8s-operator-CascadeDeployment/compare/1.0.2...1.0.3) (2023-08-18)
+
+
+### 🛠 Fixes
+
+* **app:** Add more comments to tests ([29d0497](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/29d04977f27f5cb2d7ea5965e95117a1c5f4d941))
+
 ## [1.0.2](https://github.com/Randsw/k8s-operator-CascadeDeployment/compare/1.0.1...1.0.2) (2023-08-18)
 
 
