@@ -1,3 +1,22 @@
+## [1.0.4](https://github.com/Randsw/k8s-operator-CascadeDeployment/compare/1.0.3...1.0.4) (2023-09-13)
+
+
+### 🛠 Fixes
+
+* Use new field in manager Options ([2a165f7](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/2a165f77a9120f7e4ad088c68cfc18fad8b2d9f7))
+
+
+### Other
+
+* **deps:** bump actions/checkout from 3 to 4 ([906cb6e](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/906cb6e9d7e25d8531043afd90ffae0353fed16e))
+* **deps:** bump docker/build-push-action from 4 to 5 ([a264c17](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/a264c17c8aa9b4a18755ea9b29a6c79278c31c31))
+* **deps:** bump docker/login-action from 2 to 3 ([fb08a1c](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/fb08a1c563aa655d665e9f3275737706d8553a9a))
+* **deps:** bump docker/setup-buildx-action from 2 to 3 ([54c3027](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/54c3027300a7bc929f81b66ce3599f6cfa26a9cb))
+* **deps:** bump golang from 1.17 to 1.21 ([c76bd17](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/c76bd178c12f47d8b263964816f647f496f006af))
+* **deps:** bump sigs.k8s.io/controller-runtime from 0.11.0 to 0.16.2 ([37813d3](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/37813d3aca8480ea7f82d19a1a7deacec25e2b4c))
+* **deps:** bump tj-actions/changed-files from 35 to 39 ([1010101](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/10101018a33e25d735e866ddf1bc1197af13b0cf))
+* **helm:** Bump app and chart versionin helm chart ([82a372e](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/82a372e233dcc11f88d7eee23d06cd9b91aacaa1))
+
 ## [1.0.3](https://github.com/Randsw/k8s-operator-CascadeDeployment/compare/1.0.2...1.0.3) (2023-08-18)
 
 
