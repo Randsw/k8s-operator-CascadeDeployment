@@ -10,11 +10,16 @@ on:
       - 'main'
     paths:
       - '**.go'
+      - '**.mod'
+      - '**.sum'
+      - 'Dockerfile'
   pull_request:
     branches:
       - 'main'
     paths:
       - '**.go'
+      - '**.mod'
+      - '**.sum'
       - 'Dockerfile'
 env:
   GO_VERSION: 1.19.1
