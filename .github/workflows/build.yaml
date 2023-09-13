@@ -14,7 +14,7 @@ jobs:
       runs-on: ubuntu-latest
       steps:
       - name: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v4
@@ -50,7 +50,7 @@ jobs:
         runs-on: "ubuntu-latest"
         steps:
         - name: Checkout
-          uses: actions/checkout@v3
+          uses: actions/checkout@v4
           with:
             fetch-depth: 0
         - name: Check if tag belong to commit in main branch
