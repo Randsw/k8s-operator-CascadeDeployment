@@ -36,7 +36,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build image and push to GitHub Container Registry
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           # relative path to the place where source code with Dockerfile is located
           context: .
