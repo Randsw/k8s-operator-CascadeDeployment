@@ -76,7 +76,7 @@ tolerations: []
 
 affinity: {}
 
-#RBAC Configuration
+# RBAC Configuration
 cluster_roles:
   - enabled: true
     cluster_role_binding: true
