@@ -22,7 +22,7 @@ on:
       - '**.sum'
       - 'Dockerfile'
 env:
-  GO_VERSION: 1.19.1
+  GO_VERSION: 1.21.1
 jobs:
     # build workflow
     Test:
@@ -58,6 +58,7 @@ jobs:
           uses: golangci/golangci-lint-action@v3
           with:
             args: --timeout 5m
+            skip-cache: true
     Semantic-Release:
       if: ${{ github.event_name == 'push' }}
       needs: Test
