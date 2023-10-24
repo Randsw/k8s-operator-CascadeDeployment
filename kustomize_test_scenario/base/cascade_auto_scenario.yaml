@@ -10,7 +10,7 @@ spec:
     spec:
       containers:
       - name: cascadescenario-ip
-        image: ghcr.io/randsw/cascadescenariocontroller_v2:0.2.5
+        image: ghcr.io/randsw/cascadescenariocontroller-auto:1.0.1
         imagePullPolicy: IfNotPresent
         volumeMounts:
           - name: config-volume

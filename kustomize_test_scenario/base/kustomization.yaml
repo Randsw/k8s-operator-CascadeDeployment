@@ -14,7 +14,7 @@ patches:
       labelSelector: "app=cascade"
 
 images:
-- name: ghcr.io/randsw/cascadescenariocontroller_v2
-  newTag: 0.1.1
+- name: ghcr.io/randsw/cascadescenariocontroller-auto:1.0.1
+  newTag: 1.0.1
 
 namespace: image-process
