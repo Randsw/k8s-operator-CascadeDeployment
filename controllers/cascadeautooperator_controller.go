@@ -160,7 +160,7 @@ func (r *CascadeAutoOperatorReconciler) createDeployment(instance *cascadev1alph
 	podSpec.Labels = ls
 
 	podSpec.Spec.Volumes[0].ConfigMap.Name = instance.Name + "-cm"
-	podSpec.Spec.ServiceAccountName = "cascade"
+	podSpec.Spec.ServiceAccountName = "cascade-operator"
 
 	dep := &apps.Deployment{
 		ObjectMeta: metav1.ObjectMeta{
