@@ -160,6 +160,7 @@ func (r *CascadeAutoOperatorReconciler) createDeployment(instance *cascadev1alph
 	podSpec.Labels = ls
 
 	podSpec.Spec.Volumes[0].ConfigMap.Name = instance.Name + "-cm"
+	// Use special service account for cascade scenarion controller. SA created by heml-chart
 	podSpec.Spec.ServiceAccountName = "cascade-scenario"
 
 	dep := &apps.Deployment{
