@@ -49,7 +49,7 @@ serviceAccount:
   annotations: {}
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: "cascade"
+  name: "cascade-operator"
 
 podAnnotations:
   kubectl.kubernetes.io/default-container: manager
@@ -163,7 +163,6 @@ cluster_roles:
         verbs:
         - create
 
-
 roles:
   - enabled: true
     name: "leader-election-role"
@@ -202,3 +201,42 @@ roles:
         verbs:
         - create
         - patch
+
+scenarioController:
+  serviceAccount:
+    create: true
+    name: "cascade-scenario"
+  # Annotations to add to the service account
+    annotations: {}
+    roles:
+      - enabled: true
+        kind: "ServiceAccount"
+        name: "cascade-scenario-role"
+        role_binding: true
+        labels: {}
+        rules:
+          - apiGroups:
+            - ""
+            resources:
+            - pods
+            verbs:
+            - get
+            - list
+            - watch
+            - create
+            - update
+            - patch
+            - delete
+          - apiGroups:
+            - batch
+            - extensions
+            resources:
+            - jobs
+            verbs:
+            - get
+            - list
+            - watch
+            - create
+            - update
+            - patch
+            - delete
