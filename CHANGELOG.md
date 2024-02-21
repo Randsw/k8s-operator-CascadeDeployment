@@ -1,3 +1,56 @@
+## [1.0.6](https://github.com/Randsw/k8s-operator-CascadeDeployment/compare/1.0.5...1.0.6) (2024-02-21)
+
+
+### 🦊 CI/CD
+
+* fix dependecies ([d35a58c](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/d35a58cfade23e68e37338a826004eb0f72f0030))
+
+
+### 🛠 Fixes
+
+* Rename sa for cascade scenario deployment ([3325ea0](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/3325ea0cf19f331ae5af2e610d719289b6feb37a))
+* Rename service account for operator ([24d139b](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/24d139b28a7521d87c719b76d5ce8606a1757c3c))
+* **helm:** Create 2 sa for operator and for scenario controller ([85f4b8c](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/85f4b8cdda9a166bbde599a1e01909159a8fe5ee))
+* **helm:** fix lint errors ([46c19d3](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/46c19d39fe7e1f9225485b6165fef8659c73eaf1))
+
+
+### Other
+
+* **deps:** bump actions/setup-go from 4 to 5 ([aa96b41](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/aa96b41fbb1e37bbe5e04909e71003636f713b1b))
+* **deps:** bump actions/setup-node from 3 to 4 ([b4e8970](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/b4e89707ad5e2c8f6a64ad5f3e18466ce0e1aa47))
+* **deps:** bump actions/setup-python from 4 to 5 ([eaa7fd5](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/eaa7fd5a0a2707c7ca41bb86891ee01cacf76949))
+* **deps:** bump github.com/go-logr/logr from 1.2.4 to 1.3.0 ([3e463d1](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/3e463d105b7999feda46e42bb6266a049f381fa5))
+* **deps:** bump github.com/go-logr/logr from 1.3.0 to 1.4.0 ([3300527](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/33005272bdcad1123b514060639b754dcb0ba96f))
+* **deps:** bump github.com/go-logr/logr from 1.4.0 to 1.4.1 ([fe33ed5](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/fe33ed57a58901a96cd71b525fcb97ab3b1a87bf))
+* **deps:** bump github.com/onsi/ginkgo/v2 from 2.13.0 to 2.13.1 ([ffe5997](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/ffe599732e128d9960320e3bad1a1858923a586f))
+* **deps:** bump github.com/onsi/ginkgo/v2 from 2.13.1 to 2.13.2 ([509e0af](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/509e0af42484b7bbec46c9eb7e4f352b8361cab0))
+* **deps:** bump github.com/onsi/ginkgo/v2 from 2.13.2 to 2.14.0 ([82210b6](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/82210b694459f1bf3420643394d573c1cd80fd2a))
+* **deps:** bump github.com/onsi/ginkgo/v2 from 2.14.0 to 2.15.0 ([40dc7f3](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/40dc7f33285a8064a6765d9161ee8da95ba9457f))
+* **deps:** bump github.com/onsi/gomega from 1.28.0 to 1.28.1 ([d66af58](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/d66af5883efaf27027b39921e43b194d04933286))
+* **deps:** bump github.com/onsi/gomega from 1.28.1 to 1.29.0 ([d3cf6c3](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/d3cf6c3920369c306d24bf2469ee70b026df932c))
+* **deps:** bump github.com/onsi/gomega from 1.29.0 to 1.30.0 ([d99a0a9](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/d99a0a97f9a3092125768c59e4ae8c7619716348))
+* **deps:** bump github.com/onsi/gomega from 1.30.0 to 1.31.0 ([13d9ea2](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/13d9ea292bf8a61ad2764e959fb75ad204331fe5))
+* **deps:** bump github.com/onsi/gomega from 1.31.0 to 1.31.1 ([923edd1](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/923edd170bb53732bb8e09e1f97a560bdbf60bb7))
+* **deps:** bump github.com/prometheus/client_golang ([cbadf7c](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/cbadf7c3b2df75129ac355d40b711b4f0ba6f93c))
+* **deps:** bump golang from 1.21 to 1.22 ([34b17fb](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/34b17fbcac203a449b215b30d2a7ea01121ac5be))
+* **deps:** bump golangci/golangci-lint-action from 3 to 4 ([22ee218](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/22ee218b37f5e5561dca67f3472e40f5bbd1c420))
+* **deps:** bump helm/chart-releaser-action from 1.5.0 to 1.6.0 ([5f33d0b](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/5f33d0bd7466436297c76c1a82e3a9cf043c88db))
+* **deps:** bump helm/chart-testing-action from 2.4.0 to 2.6.0 ([82b929f](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/82b929f65ad3467125305e285ff168bd7cc89582))
+* **deps:** bump helm/chart-testing-action from 2.6.0 to 2.6.1 ([b17bbab](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/b17bbab39613757b38d67d39857ec156e17d1ad2))
+* **deps:** bump helm/kind-action from 1.8.0 to 1.9.0 ([c689e47](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/c689e47287f4b4c56acc2fa24265e5a5337f4f93))
+* **deps:** bump k8s.io/api from 0.28.3 to 0.28.4 ([2b319c3](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/2b319c381074cba8acbda3aa3092d8e5946eae39))
+* **deps:** bump k8s.io/client-go from 0.28.3 to 0.28.4 ([4f77164](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/4f77164b2094bee569daaf25099a6db6ba03235a))
+* **deps:** bump k8s.io/client-go from 0.28.4 to 0.29.0 ([06a04ca](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/06a04cab295222239635a9012abc872b44be5d0d))
+* **deps:** bump k8s.io/client-go from 0.29.0 to 0.29.1 ([0a215f9](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/0a215f9dc4ed1c11c27e39f44c33ab62518cab9d))
+* **deps:** bump k8s.io/client-go from 0.29.1 to 0.29.2 ([d1e5029](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/d1e502957b7f26878a81648f6f5749244b264c7f))
+* **deps:** bump sigs.k8s.io/controller-runtime from 0.16.3 to 0.17.0 ([700f601](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/700f60147091c59b2d60ed12217323e221e32924))
+* **deps:** bump sigs.k8s.io/controller-runtime from 0.17.0 to 0.17.1 ([8be4453](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/8be4453614b7f0042ad67e4303d5ace8a84111a3))
+* **deps:** bump sigs.k8s.io/controller-runtime from 0.17.1 to 0.17.2 ([ee8eb90](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/ee8eb90010259e5aeaddd6882bd97e387938bbd2))
+* **deps:** bump tj-actions/changed-files from 39 to 40 ([f08b664](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/f08b664c674ca1214448926c382168560434bffc))
+* **deps:** bump tj-actions/changed-files from 40 to 41 ([340d351](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/340d35146546d86149d22124f27fb345f9d4e7a3))
+* **deps:** bump tj-actions/changed-files from 41 to 42 ([a282b3c](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/a282b3cbeb426495ca222c5fc98d6e25994dd985))
+* **deps:** Fix scenariocontroller image name and bump version ([736375e](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/736375e61f3a06c9167c8b71452ae396642c472b))
+
 ## [1.0.5](https://github.com/Randsw/k8s-operator-CascadeDeployment/compare/1.0.4...1.0.5) (2023-10-19)
 
 
