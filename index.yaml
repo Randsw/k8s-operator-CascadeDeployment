@@ -3,6 +3,20 @@ entries:
   cascadeautooperator:
   - apiVersion: v2
     appVersion: 0.1.3
+    created: "2024-02-21T11:35:34.920094173Z"
+    description: Cascade Auto scenario starter operator. Get event from message brocker
+    digest: 86448efda3113b30613ef71efdf4130367348ee3c6d5c6dd9d82c117c0207611
+    maintainers:
+    - email: randsw06@gmail.com
+      name: Randsw
+      url: https://github.com/Randsw
+    name: cascadeautooperator
+    type: application
+    urls:
+    - https://github.com/Randsw/k8s-operator-CascadeDeployment/releases/download/cascadeautooperator-0.1.3/cascadeautooperator-0.1.3.tgz
+    version: 0.1.3
+  - apiVersion: v2
+    appVersion: 0.1.3
     created: "2023-09-14T14:38:56.549227024Z"
     description: Cascade Auto scenario starter operator. Get event from message brocker
     digest: e8196a02c41e9d239efccc00718360c7584fb093ad1d62f1e95ff0dc0fbda943
@@ -29,4 +43,4 @@ entries:
     urls:
     - https://github.com/Randsw/k8s-operator-CascadeDeployment/releases/download/cascadeautooperator-0.1.1/cascadeautooperator-0.1.1.tgz
     version: 0.1.1
-generated: "2023-09-14T14:38:56.549242524Z"
+generated: "2024-02-21T11:35:34.920109722Z"
