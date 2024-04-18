@@ -30,6 +30,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 	"sigs.k8s.io/controller-runtime/pkg/log"
+	"sigs.k8s.io/controller-runtime/pkg/predicate"
 
 	"github.com/go-logr/logr"
 	cascadev1alpha1 "github.com/randsw/cascadeAuto-operator/api/v1alpha1"
@@ -148,6 +149,7 @@ func (r *CascadeAutoOperatorReconciler) SetupWithManager(mgr ctrl.Manager) error
 		For(&cascadev1alpha1.CascadeAutoOperator{}).
 		Owns(&apps.Deployment{}).
 		Owns(&corev1.ConfigMap{}).
+		WithEventFilter(predicate.GenerationChangedPredicate{}).
 		Complete(r)
 }
 
