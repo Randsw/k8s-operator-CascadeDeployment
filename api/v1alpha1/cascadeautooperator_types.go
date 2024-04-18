@@ -120,12 +120,18 @@ type CascadeAutoOperatorSpec struct {
 type CascadeAutoOperatorStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	Status apps.DeploymentStatus `json:"status"`
+	Active    int32  `json:"active"`
+	Succeeded int32  `json:"succeeded"`
+	Failed    int32  `json:"failed"`
+	Result    string `json:"result"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:printcolumn:name="Scenario Status",type="string",JSONPath=".status.status",description="Scenario Deployment status"
+// +kubebuilder:printcolumn:name="Active Jobs",type="string",JSONPath=".status.active",description="The active status of this Scenario"
+// +kubebuilder:printcolumn:name="Succeeded Jobs",type="string",JSONPath=".status.succeeded",description="The succeeded status of this Scenario"
+// +kubebuilder:printcolumn:name="Failed Jobs",type="string",JSONPath=".status.failed",description="The failed status of this Scenario"
+// +kubebuilder:printcolumn:name="Last Scenario Result",type="string",JSONPath=".status.result",description="The result of last scenario run"
 // CascadeAutoOperator is the Schema for the cascadeautooperators API
 type CascadeAutoOperator struct {
 	metav1.TypeMeta   `json:",inline"`
