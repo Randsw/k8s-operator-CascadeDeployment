@@ -1,3 +1,26 @@
+## [1.1.0](https://github.com/Randsw/k8s-operator-CascadeDeployment/compare/1.0.6...1.1.0) (2024-04-18)
+
+
+### 🚀 Features
+
+* Add new status fields ([3a47ac4](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/3a47ac4b542e6ffd4cb544673c6650aa5e40be3d))
+
+
+### Other
+
+* **deps:** bump azure/setup-helm from 3 to 4 ([4e5cc23](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/4e5cc232497165996e3f9104bc3b5bf1396992a3))
+* **deps:** bump github.com/onsi/ginkgo/v2 from 2.15.0 to 2.16.0 ([f9fde2f](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/f9fde2f26d12233e3d546c2f59e5338829049f9f))
+* **deps:** bump github.com/onsi/ginkgo/v2 from 2.16.0 to 2.17.0 ([3bc8ca8](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/3bc8ca8e1b537f78cffce69b0cdf8989b9fa59b7))
+* **deps:** bump github.com/onsi/ginkgo/v2 from 2.17.0 to 2.17.1 ([101bdc9](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/101bdc91bb5679ec9e57e7ee51d937584b05f00b))
+* **deps:** bump github.com/onsi/gomega from 1.31.1 to 1.32.0 ([ccfd5eb](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/ccfd5eb39dde8f9dc69b5e2b3055e9ebf922cda6))
+* **deps:** bump github.com/prometheus/client_golang ([ac4c489](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/ac4c4890485e4ea175024546a35db4d3463d07a9))
+* **deps:** bump k8s.io/client-go from 0.29.2 to 0.29.3 ([e81f88b](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/e81f88bd02fe02438b354e333a2f33e0651d5833))
+* **deps:** bump k8s.io/client-go from 0.29.3 to 0.29.4 ([e8f9146](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/e8f9146b00c6b6af40eaf00a68b3ca5a33aa8d69))
+* **deps:** bump sigs.k8s.io/controller-runtime from 0.17.2 to 0.17.3 ([baeeb9a](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/baeeb9aac7368e7974c6b820437688bcb99793cf))
+* **deps:** bump softprops/action-gh-release from 1 to 2 ([085b4bf](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/085b4bf0351a57d505b6febad35838482b433df4))
+* **deps:** bump tj-actions/changed-files from 42 to 43 ([a0d008d](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/a0d008d2c60a896faf61ec2fe7008b3d6a01a398))
+* **deps:** bump tj-actions/changed-files from 43 to 44 ([5df832b](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/5df832b4a472f66070ad1e37aeed7da210e79af8))
+
 ## [1.0.6](https://github.com/Randsw/k8s-operator-CascadeDeployment/compare/1.0.5...1.0.6) (2024-02-21)
 
 
