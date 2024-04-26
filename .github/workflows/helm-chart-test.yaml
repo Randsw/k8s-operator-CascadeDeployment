@@ -44,7 +44,7 @@ jobs:
         with:
           files_yaml: |
             helm:
-              - helm/cascade-auto-operator/*.{yaml,tpl}
+              - helm/cascade-auto-operator/**/*.{yaml,tpl}
               - '!helm/cascade-auto-operator/Chart.yaml'
 
       - name: Run chart-testing (lint)
