@@ -2,7 +2,7 @@ module github.com/randsw/cascadeAuto-operator
 
 go 1.21
 
-toolchain go1.21.3
+toolchain go1.21.9
 
 require (
 	github.com/go-logr/logr v1.4.1

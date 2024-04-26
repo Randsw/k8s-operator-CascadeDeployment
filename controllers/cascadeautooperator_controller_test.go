@@ -39,7 +39,7 @@ var _ = Describe("CascadeAutoOperator controller", func() {
 			Expect(err).To(Not(HaveOccurred()))
 
 			By("Setting the Image ENV VAR which stores the Operand image")
-			err = os.Setenv("CASCADEAUTOOPERATOR_IMAGE", "ghcr.io/randsw/cascadeautooperator:0.0.1")
+			err = os.Setenv("CASCADEAUTOOPERATOR_IMAGE", "ghcr.io/randsw/cascadeautooperator:1.1.0")
 			Expect(err).To(Not(HaveOccurred()))
 		})
 
@@ -75,7 +75,7 @@ var _ = Describe("CascadeAutoOperator controller", func() {
 								Containers: []corev1.Container{
 									{
 										Name:  "cascadescenario-test",
-										Image: "ghcr.io/randsw/cascadescenariocontroller_v2:0.2.5",
+										Image: "ghcr.io/randsw/cascadescenariocontroller-auto:1.4.1",
 										VolumeMounts: []corev1.VolumeMount{
 											{
 												Name:      "config-volume",
