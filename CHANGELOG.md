@@ -1,3 +1,17 @@
+## [1.2.0](https://github.com/Randsw/k8s-operator-CascadeDeployment/compare/1.1.0...1.2.0) (2024-04-26)
+
+
+### 🚀 Features
+
+* Update CRD in Helm. Bump testing tools version ([ed8a140](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/ed8a140419c0d5455b7e44c4cb2887069f660722))
+
+
+### Other
+
+* **deps:** bump github.com/onsi/gomega from 1.32.0 to 1.33.0 ([0273fec](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/0273fec96a036231a8bc02e208a953599410d820))
+* **deps:** bump golangci/golangci-lint-action from 4 to 5 ([f20803c](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/f20803c40af91657bfca426fcea73db43d73c2f8))
+* **deps:** bump helm/kind-action from 1.9.0 to 1.10.0 ([7b30ce9](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/7b30ce9b87702c1f1aa66104869022b658eec1bc))
+
 ## [1.1.0](https://github.com/Randsw/k8s-operator-CascadeDeployment/compare/1.0.6...1.1.0) (2024-04-18)
 
 
