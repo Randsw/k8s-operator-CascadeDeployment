@@ -1,3 +1,15 @@
+## [1.2.1](https://github.com/Randsw/k8s-operator-CascadeDeployment/compare/1.2.0...1.2.1) (2024-04-29)
+
+
+### 🛠 Fixes
+
+* **helm:** Fix helm release and bump helm chart version ([314ffe2](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/314ffe21b7d414105e73c4e058a375553d8f4702))
+
+
+### Other
+
+* **deps:** bump github.com/onsi/ginkgo/v2 from 2.17.1 to 2.17.2 ([2a0a49f](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/2a0a49f0d690c1b399f1d1b28d59a823d3b3e1fb))
+
 ## [1.2.0](https://github.com/Randsw/k8s-operator-CascadeDeployment/compare/1.1.0...1.2.0) (2024-04-26)
 
 
