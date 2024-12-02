@@ -61,24 +61,6 @@ spec:
             timeoutSeconds: 1
           resources:
             {{- toYaml .Values.image.resources | nindent 12 }}
-        - name: kube-rbac-proxy
-          {{- if .Values.rbacImage.securityContext }}
-          securityContext:
-            {{- toYaml .Values.rbacImage.securityContext | nindent 12 }}
-          {{- end }}
-          image: "{{ .Values.rbacImage.repository }}:{{ .Values.rbacImage.tag | default .Chart.AppVersion }}"
-          args:
-            - --secure-listen-address=0.0.0.0:8443
-            - --upstream=http://127.0.0.1:8080/
-            - --logtostderr=true
-            - --v=0
-          imagePullPolicy: {{ .Values.rbacImage.pullPolicy }}
-          ports:
-            - name: https
-              containerPort: 8443
-              protocol: TCP
-          resources:
-            {{- toYaml .Values.rbacImage.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
