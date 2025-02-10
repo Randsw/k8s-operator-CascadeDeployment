@@ -208,21 +208,21 @@ scenarioController:
             - ""
             resources:
             - pods
-            verbs: 
-            - get 
-            - list 
-            - watch 
-            - create 
-            - update 
-            - patch 
+            verbs:
+            - get
+            - list
+            - watch
+            - create
+            - update
+            - patch
             - delete
-          - apiGroups: 
+          - apiGroups:
             - batch
             - extensions
-            resources: 
+            resources:
             - jobs
             verbs:
-            - get 
+            - get
             - list 
             - watch 
             - create 
