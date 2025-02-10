@@ -206,6 +206,7 @@ func (r *CascadeAutoOperatorReconciler) createDeployment(instance *cascadev1alph
 	return dep
 }
 
+// Create configmap for scenario controller
 func (r *CascadeAutoOperatorReconciler) getCm(instance *cascadev1alpha1.CascadeAutoOperator, logger *logr.Logger) *corev1.ConfigMap {
 	data, _ := json.Marshal(instance.Spec.ScenarioConfig)
 	cm := &corev1.ConfigMap{
