@@ -190,6 +190,8 @@ roles:
         - create
         - patch
 
+
+# RBAC for scenario controller
 scenarioController:
   serviceAccount:
     create: true
