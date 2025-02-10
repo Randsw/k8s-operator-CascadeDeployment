@@ -1,3 +1,10 @@
+## [1.4.3](https://github.com/Randsw/k8s-operator-CascadeDeployment/compare/1.4.2...1.4.3) (2025-02-10)
+
+
+### 🛠 Fixes
+
+* **gh-action:** Add git config to release stage ([a109b85](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/a109b851fbcf93256e3488187f6fcbdf2867461d))
+
 ## [1.4.2](https://github.com/Randsw/k8s-operator-CascadeDeployment/compare/1.4.1...1.4.2) (2025-02-10)
 
 
