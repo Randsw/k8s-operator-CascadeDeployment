@@ -1,3 +1,16 @@
+## [1.4.1](https://github.com/Randsw/k8s-operator-CascadeDeployment/compare/1.4.0...1.4.1) (2025-02-10)
+
+
+### 🛠 Fixes
+
+* Add more comments ([e865739](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/e8657396a24062542f2c3280b4a629fbca5448e6))
+* **helm:** Bump gh action python version ([120ceee](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/120ceee3d91bb09322b4a0e5e2e7b2022226db21))
+* **helm:** Bump python version for gh actions ([c582c21](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/c582c2152784cf44b6e6a56c9174d7494ace361d))
+* **helm:** Fix lint errors. Bump app version ([5e7562e](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/5e7562ed730a8692ff99c08ae39b7e09de3f1d68))
+* **helm:** Fix more lint errors ([84caa60](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/84caa60500e57afedb04ea878d4843f449679e1a))
+* **helm:** New description for chart ([135c9e3](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/135c9e3903651205376615a787ba8d43446ff096))
+* **helm:** Release chart ([7e7c7a5](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/7e7c7a515bde6a4b988a23eab8915c81586650dc))
+
 ## [1.4.0](https://github.com/Randsw/k8s-operator-CascadeDeployment/compare/1.3.0...1.4.0) (2025-02-10)
 
 
