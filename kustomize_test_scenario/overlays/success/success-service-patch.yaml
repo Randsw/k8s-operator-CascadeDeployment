@@ -1,0 +1,6 @@
+- op: replace
+  path: "/metadate/name"
+  value: cascadescenario-success-ip
+- op: replace
+  path: "/spec/selector/app"
+  value: cascadescenario-success-ip

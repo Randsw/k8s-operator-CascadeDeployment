@@ -113,6 +113,7 @@ cluster_roles:
         - ""
         resources:
         - configmaps
+        - services
         verbs:
         - create
         - delete
@@ -193,12 +194,11 @@ scenarioController:
   serviceAccount:
     create: true
     name: "cascade-scenario"
-  # Annotations to add to the service account
     annotations: {}
     roles:
       - enabled: true
-        kind: "ServiceAccount"
         name: "cascade-scenario-role"
+        kind: "ServiceAccount"
         role_binding: true
         labels: {}
         rules:
@@ -206,24 +206,46 @@ scenarioController:
             - ""
             resources:
             - pods
-            verbs:
-            - get
-            - list
-            - watch
-            - create
-            - update
-            - patch
+            verbs: 
+            - get 
+            - list 
+            - watch 
+            - create 
+            - update 
+            - patch 
             - delete
-          - apiGroups:
+          - apiGroups: 
             - batch
             - extensions
-            resources:
+            resources: 
             - jobs
             verbs:
+            - get 
+            - list 
+            - watch 
+            - create 
+            - update 
+            - patch 
+            - delete
+          - apiGroups:
+            - cascade.cascade.net
+            resources:
+            - cascadeautooperators
+            - cascaderuns
+            verbs:
+            - create
+            - delete
             - get
             - list
-            - watch
-            - create
-            - update
             - patch
-            - delete
+            - update
+            - watch
+          - apiGroups:
+            - cascade.cascade.net
+            resources:
+            - cascadeautooperators/status
+            - cascaderuns/status
+            verbs:
+            - get
+            - patch
+            - update

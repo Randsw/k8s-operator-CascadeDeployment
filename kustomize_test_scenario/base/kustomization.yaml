@@ -3,6 +3,7 @@ kind: Kustomization
 
 resources:
   - cascade_auto_scenario.yaml
+  - cascade-auto-scenario-service.yaml
 
 patches:
   - path: base-patch.yaml

@@ -10,3 +10,9 @@ patches:
       kind: CascadeAutoOperator
       name: cascadeautooperator.*
       labelSelector: "app=cascade"
+  - path: success-service-patch.yaml
+    target:
+      group: ""
+      version: v1
+      kind: Service
+      labelSelector: "app=cascade"

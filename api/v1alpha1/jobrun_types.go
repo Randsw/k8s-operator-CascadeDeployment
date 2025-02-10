@@ -6,9 +6,9 @@ import (
 
 type CascadeRunSpec struct {
 
-	Object string `json:"object"`
-	Source string `json:"source"`
-	PackageID string `json:"packageid"`
+	Ob string `json:"ob"`
+	Src string `json:"src"`
+	PID string `json:"pid"`
 	ScenarioName string `json:"scenarioname"`
 	Modules []string `json:"modules"`
 }
