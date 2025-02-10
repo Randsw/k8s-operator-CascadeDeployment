@@ -44,6 +44,7 @@ type CascadeAutoOperatorReconciler struct {
 	Scheme *runtime.Scheme
 }
 
+// Finalizer for metrcis scrape
 const finalizer = "metrics.cascade.cascade.net/finalizer"
 
 //+kubebuilder:rbac:groups=cascade.cascade.net,resources=cascadeautooperators,verbs=get;list;watch;create;update;patch;delete
