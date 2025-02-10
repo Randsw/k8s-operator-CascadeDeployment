@@ -1,6 +1,6 @@
 apiVersion: v2
 name: cascadeautooperator
-description: Cascade Auto scenario starter operator. Get event from message brocker
+description: Cascade Auto scenario starter operator. Get event from http POST message
 
 # A chart can be either an 'application' or a 'library' chart.
 #
