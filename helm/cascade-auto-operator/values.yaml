@@ -223,11 +223,11 @@ scenarioController:
             - jobs
             verbs:
             - get
-            - list 
-            - watch 
-            - create 
-            - update 
-            - patch 
+            - list
+            - watch
+            - create
+            - update
+            - patch
             - delete
           - apiGroups:
             - cascade.cascade.net
