@@ -74,7 +74,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: 3.7
+          python-version: 3.11
 
       - name: Get changed files in the helm folder
         id: changed-files-helm-chart
@@ -128,7 +128,7 @@ jobs:
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.7.0
         with:
-            charts_dir: helm
+            charts_dir: helm 
         env:
             CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         if: steps.changed-files-helm-chart.outputs.chart_version_any_changed == 'true' && github.ref == 'refs/heads/main'
