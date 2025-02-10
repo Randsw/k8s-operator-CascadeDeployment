@@ -226,6 +226,7 @@ func (r *CascadeAutoOperatorReconciler) getCm(instance *cascadev1alpha1.CascadeA
 	return cm
 }
 
+// Create service for scenario controller
 func (r *CascadeAutoOperatorReconciler) getService(instance *cascadev1alpha1.CascadeAutoOperator, logger *logr.Logger) *corev1.Service {
 	var source string
 	for _, envar := range instance.Spec.Template.Spec.Containers[0].Env {
