@@ -1,3 +1,10 @@
+## [1.4.2](https://github.com/Randsw/k8s-operator-CascadeDeployment/compare/1.4.1...1.4.2) (2025-02-10)
+
+
+### 🛠 Fixes
+
+* **gh-action:** Fix release creation in github ([4a1eae6](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/4a1eae67356ff3a52d2cf095e6c43296a494d429))
+
 ## [1.4.1](https://github.com/Randsw/k8s-operator-CascadeDeployment/compare/1.4.0...1.4.1) (2025-02-10)
 
 
