@@ -39,7 +39,7 @@ var _ = Describe("CascadeAutoOperator controller", func() {
 			Expect(err).To(Not(HaveOccurred()))
 
 			By("Setting the Image ENV VAR which stores the Operand image")
-			err = os.Setenv("CASCADEAUTOOPERATOR_IMAGE", "ghcr.io/randsw/cascadeautooperator:1.1.0")
+			err = os.Setenv("CASCADEAUTOOPERATOR_IMAGE", "ghcr.io/randsw/cascadeautooperator")
 			Expect(err).To(Not(HaveOccurred()))
 		})
 
