@@ -1,3 +1,10 @@
+## [1.4.5](https://github.com/Randsw/k8s-operator-CascadeDeployment/compare/1.4.4...1.4.5) (2025-03-29)
+
+
+### 🛠 Fixes
+
+* Fix test image pinning ([0a6a319](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/0a6a319e7b9f5dcc857b066d19bf2eadda300493))
+
 ## [1.4.4](https://github.com/Randsw/k8s-operator-CascadeDeployment/compare/1.4.3...1.4.4) (2025-03-29)
 
 
