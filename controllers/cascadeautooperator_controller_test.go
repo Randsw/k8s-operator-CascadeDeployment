@@ -75,7 +75,7 @@ var _ = Describe("CascadeAutoOperator controller", func() {
 								Containers: []corev1.Container{
 									{
 										Name:  "cascadescenario-test",
-										Image: "ghcr.io/randsw/cascadescenariocontroller-auto:1.4.1",
+										Image: "ghcr.io/randsw/cascadescenariocontroller-auto",
 										VolumeMounts: []corev1.VolumeMount{
 											{
 												Name:      "config-volume",
