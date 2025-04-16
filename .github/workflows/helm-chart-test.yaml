@@ -10,11 +10,13 @@ on:
       - 'main'
     paths:
       - 'helm/cascade-auto-operator/**/*.yaml'
+      - 'helm/cascade-auto-operator/**/*.tpl'
   pull_request:
     branches:
       - 'main'
     paths:
       - 'helm/cascade-auto-operator/**/*.yaml'
+      - 'helm/cascade-auto-operator/**/*.tpl'
 permissions:
   contents: write
 jobs:
@@ -82,7 +84,7 @@ jobs:
         with:
           files_yaml: |
             helm:
-              - helm/cascade-auto-operator/*.{yaml,tpl}
+              - helm/cascade-auto-operator/**/*.{yaml,tpl}
               - '!helm/cascade-auto-operator/Chart.yaml'
             chart_version:
               - 'helm/cascade-auto-operator/Chart.yaml'
