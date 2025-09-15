@@ -42,7 +42,7 @@ jobs:
 
       - name: Get changed files in the helm folder
         id: changed-files-helm-chart
-        uses: tj-actions/changed-files@v46
+        uses: tj-actions/changed-files@v47
         with:
           files_yaml: |
             helm:
@@ -80,7 +80,7 @@ jobs:
 
       - name: Get changed files in the helm folder
         id: changed-files-helm-chart
-        uses: tj-actions/changed-files@v46
+        uses: tj-actions/changed-files@v47
         with:
           files_yaml: |
             helm:
