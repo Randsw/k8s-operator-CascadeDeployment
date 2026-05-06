@@ -151,5 +151,5 @@ type CascadeAutoOperatorList struct {
 }
 
 func init() {
-	SchemeBuilder.Register(&CascadeAutoOperator{}, &CascadeAutoOperatorList{})
+	SchemeBuilder.Register(addKnownTypes)
 }
