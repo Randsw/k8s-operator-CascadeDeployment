@@ -5,17 +5,16 @@ import (
 )
 
 type CascadeRunSpec struct {
-
-	Ob string `json:"ob"`
-	Src string `json:"src"`
-	PID string `json:"pid"`
-	ScenarioName string `json:"scenarioname"`
-	Modules []string `json:"modules"`
+	Ob           string   `json:"ob"`
+	Src          string   `json:"src"`
+	PID          string   `json:"pid"`
+	ScenarioName string   `json:"scenarioname"`
+	Modules      []string `json:"modules"`
 }
 
 type CascadeRunStatus struct {
 	Result []string `json:"result"`
-	Info string `json:"info"`
+	Info   string   `json:"info"`
 }
 
 // +kubebuilder:object:root=true
@@ -41,5 +40,5 @@ type CascadeRunList struct {
 }
 
 func init() {
-	SchemeBuilder.Register(&CascadeRun{}, &CascadeRunList{})
+	SchemeBuilder.Register(addKnownTypes)
 }
