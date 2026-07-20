@@ -663,7 +663,7 @@ var _ = Describe("CascadeAutoOperator controller reconciliation", func() {
 
 		result, err := reconciler.Reconcile(ctx, reconcile.Request{NamespacedName: crKey})
 		Expect(err).NotTo(HaveOccurred(), "validation errors must not return a Go error — they are user errors")
-		Expect(result.Requeue).To(BeFalse(), "invalid spec must not be requeued")
+		Expect(result.RequeueAfter).To(BeZero(), "invalid spec must not be requeued")
 
 		By("setting the status to reflect validation failure")
 		cr := &cascadev1alpha1.CascadeAutoOperator{}
@@ -698,7 +698,7 @@ var _ = Describe("CascadeAutoOperator controller reconciliation", func() {
 		// Extra reconcile must not change anything
 		result, err := reconciler.Reconcile(ctx, reconcile.Request{NamespacedName: crKey})
 		Expect(err).NotTo(HaveOccurred())
-		Expect(result.Requeue).To(BeFalse())
+		Expect(result.RequeueAfter).To(BeZero())
 
 		Expect(k8sClient.Get(ctx,
 			types.NamespacedName{Name: crKey.Name + "-deploy", Namespace: crKey.Namespace}, dep,
@@ -747,6 +747,6 @@ var _ = Describe("CascadeAutoOperator controller reconciliation", func() {
 			NamespacedName: types.NamespacedName{Name: "nonexistent", Namespace: crKey.Namespace},
 		})
 		Expect(err).NotTo(HaveOccurred())
-		Expect(result.Requeue).To(BeFalse())
+		Expect(result.RequeueAfter).To(BeZero())
 	})
 })
