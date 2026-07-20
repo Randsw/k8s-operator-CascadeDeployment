@@ -1,3 +1,27 @@
+## [1.4.7](https://github.com/Randsw/k8s-operator-CascadeDeployment/compare/1.4.6...1.4.7) (2026-07-20)
+
+
+### 🛠 Fixes
+
+* Fix nil pointer dereference issue ([6ec1068](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/6ec106811022c0e27f638d46eac541d7ed62f747))
+
+
+### Other
+
+* **deps:** bump actions/checkout from 6 to 7 ([dff5c4b](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/dff5c4b7b25738b18021a1d243b4a185defedefd))
+* **deps:** bump actions/setup-go from 6 to 7 ([e254e14](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/e254e14fee2c82573bb87988d800ffae45b55363))
+* **deps:** bump actions/setup-node from 6 to 7 ([fb2dca4](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/fb2dca4135789d6e2af5315a330a1c0ec7996009))
+* **deps:** bump github.com/onsi/ginkgo/v2 from 2.28.3 to 2.29.0 ([711fda1](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/711fda103eeba111ac40b52debd424a161cd5ec2))
+* **deps:** bump github.com/onsi/ginkgo/v2 from 2.29.0 to 2.30.0 ([576cbe6](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/576cbe6154c927a381a77e574144d88c95d5961d))
+* **deps:** bump github.com/onsi/ginkgo/v2 from 2.30.0 to 2.31.0 ([767845c](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/767845c0f028e092c2e41a97f18c7fbba72d6490))
+* **deps:** bump github.com/onsi/ginkgo/v2 from 2.31.0 to 2.32.0 ([dff0672](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/dff0672e8b1e68d3c288899ddd974eefcc4cffa2))
+* **deps:** bump github.com/onsi/gomega from 1.40.0 to 1.41.0 ([5226cab](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/5226cab178d224e639e333f5d29c250876ae1b91))
+* **deps:** bump github.com/onsi/gomega from 1.41.0 to 1.42.0 ([78fd75b](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/78fd75bb7d16c67480f656f3dd6884944999ebc8))
+* **deps:** bump github.com/onsi/gomega from 1.42.0 to 1.42.1 ([6e0ddea](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/6e0ddead47c3015286d5b31e7fa1701cb23bc2ea))
+* **deps:** bump k8s.io/client-go from 0.36.0 to 0.36.1 ([2fe9636](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/2fe9636f15ee27259fcc6aa42bc7be78b6cc3476))
+* **deps:** bump k8s.io/client-go from 0.36.1 to 0.36.2 ([c9a928e](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/c9a928e901fc9c0d56a532708e3071a5e3168178))
+* **deps:** bump sigs.k8s.io/controller-runtime from 0.24.0 to 0.24.1 ([0f3ceca](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/0f3ceca2d43076a42c1633f2531e37b1034d2d9b))
+
 ## [1.4.6](https://github.com/Randsw/k8s-operator-CascadeDeployment/compare/1.4.5...1.4.6) (2026-05-06)
 
 
