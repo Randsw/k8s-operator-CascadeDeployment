@@ -95,6 +95,8 @@ spec:
                   cascademodules:
                     description: CascadeModules list with configuration parameters
                     items:
+                      description: CascadeModule defines a single module in cascade
+                        scenation
                       properties:
                         activeDeadlineSeconds:
                           description: |-

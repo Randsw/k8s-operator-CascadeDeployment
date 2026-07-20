@@ -38,7 +38,3 @@ type CascadeRunList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []CascadeRun `json:"items"`
 }
-
-func init() {
-	SchemeBuilder.Register(addKnownTypes)
-}

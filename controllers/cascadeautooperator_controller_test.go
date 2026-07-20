@@ -16,7 +16,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 )
 
-// Check if deployment and configmap created in cluster after CRD apply
+// Check if deployment, configmap, and service created in cluster after CRD apply
 var _ = Describe("CascadeAutoOperator controller", func() {
 	Context("CascadeAutoOperator controller test", func() {
 
@@ -71,6 +71,12 @@ var _ = Describe("CascadeAutoOperator controller", func() {
 					Spec: cascadev1alpha1.CascadeAutoOperatorSpec{
 						Replicas: 1,
 						Template: corev1.PodTemplateSpec{
+							ObjectMeta: metav1.ObjectMeta{
+								Labels: map[string]string{
+									"app":                    CascadeAutoOperatorName,
+									"cascadeautooperator_cr": CascadeAutoOperatorName,
+								},
+							},
 							Spec: corev1.PodSpec{
 								Containers: []corev1.Container{
 									{
@@ -106,6 +112,7 @@ var _ = Describe("CascadeAutoOperator controller", func() {
 										},
 									},
 								},
+								ServiceAccountName: "cascade-scenario",
 							},
 						},
 						ScenarioConfig: cascadev1alpha1.CascadeScenario{
@@ -158,28 +165,33 @@ var _ = Describe("CascadeAutoOperator controller", func() {
 			By("Checking if Deployment was successfully created in the reconciliation")
 			Eventually(func() error {
 				found := &appsv1.Deployment{}
-				DeploymentName := CascadeAutoOperatorName + "-deploy"
-				typeNamespaceName := types.NamespacedName{Name: DeploymentName, Namespace: CascadeAutoOperatorName}
-				return k8sClient.Get(ctx, typeNamespaceName, found)
+				deploymentKey := types.NamespacedName{Name: CascadeAutoOperatorName + "-deploy", Namespace: CascadeAutoOperatorName}
+				return k8sClient.Get(ctx, deploymentKey, found)
 			}, time.Minute, time.Second).Should(Succeed())
 
-			By("Reconciling the custom resource created")
-			cascadeAutoOperatorReconciler = &CascadeAutoOperatorReconciler{
-				Client: k8sClient,
-				Scheme: k8sClient.Scheme(),
-			}
-
+			By("Reconciling the custom resource created again to create ConfigMap")
 			_, err = cascadeAutoOperatorReconciler.Reconcile(ctx, reconcile.Request{
-				NamespacedName: typeNamespaceName,
+				NamespacedName: types.NamespacedName{Name: CascadeAutoOperatorName, Namespace: CascadeAutoOperatorName},
 			})
 			Expect(err).To(Not(HaveOccurred()))
 
 			By("Checking if ConfigMap was successfully created in the reconciliation")
 			Eventually(func() error {
 				found := &corev1.ConfigMap{}
-				typeNamespaceName := types.NamespacedName{Name: CascadeAutoOperatorName + "-cm", Namespace: CascadeAutoOperatorName}
-				return k8sClient.Get(ctx, typeNamespaceName, found)
+				return k8sClient.Get(ctx, types.NamespacedName{Name: CascadeAutoOperatorName + "-cm", Namespace: CascadeAutoOperatorName}, found)
 			}, time.Minute*2, time.Second).Should(Succeed())
+
+			By("Reconciling the custom resource created again to create Service")
+			_, err = cascadeAutoOperatorReconciler.Reconcile(ctx, reconcile.Request{
+				NamespacedName: types.NamespacedName{Name: CascadeAutoOperatorName, Namespace: CascadeAutoOperatorName},
+			})
+			Expect(err).To(Not(HaveOccurred()))
+
+			By("Checking if Service was successfully created in the reconciliation")
+			Eventually(func() error {
+				found := &corev1.Service{}
+				return k8sClient.Get(ctx, types.NamespacedName{Name: CascadeAutoOperatorName, Namespace: CascadeAutoOperatorName}, found)
+			}, time.Minute, time.Second).Should(Succeed())
 		})
 	})
 })

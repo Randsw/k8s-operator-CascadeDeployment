@@ -24,6 +24,7 @@ import (
 
 	apps "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
+	apiequality "k8s.io/apimachinery/pkg/api/equality"
 	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -84,6 +85,20 @@ func (r *CascadeAutoOperatorReconciler) Reconcile(ctx context.Context, req ctrl.
 		logger.Error(err, "Failed to get CascadeAutoOperator.")
 		return ctrl.Result{}, err
 	}
+
+	// Validate the CR spec before any processing
+	if errs := r.validateSpec(instance); len(errs) > 0 {
+		for _, verr := range errs {
+			logger.Error(verr, "CR spec validation failed")
+		}
+		instance.Status.Result = fmt.Sprintf("validation failed: %v", errs)
+		if err := r.Status().Update(ctx, instance); err != nil {
+			logger.Error(err, "Failed to update status after validation failure")
+		}
+		// Don't requeue - invalid spec won't fix itself without user intervention
+		return ctrl.Result{}, nil
+	}
+
 	// Add finalizer for metrics
 	if !controllerutil.ContainsFinalizer(instance, finalizer) {
 		logger.Info("Adding Finalizer for CascadeAutoOperator")
@@ -138,7 +153,7 @@ func (r *CascadeAutoOperatorReconciler) Reconcile(ctx context.Context, req ctrl.
 		logger.Error(err, "Failed to create desired Deployment spec for comparison")
 		return ctrl.Result{}, err
 	}
-	if !reflect.DeepEqual(found.Spec, desiredDeployment.Spec) {
+	if !deploymentSpecEqual(&found.Spec, &desiredDeployment.Spec) {
 		logger.Info("Updating existing Deployment", "Deployment.Namespace", found.Namespace, "Deployment.Name", found.Name)
 		found.Spec = desiredDeployment.Spec
 		err = r.Update(ctx, found)
@@ -215,7 +230,7 @@ func (r *CascadeAutoOperatorReconciler) Reconcile(ctx context.Context, req ctrl.
 		logger.Error(err, "Failed to create desired Service spec for comparison")
 		return ctrl.Result{}, err
 	}
-	if !reflect.DeepEqual(foundSvc.Spec, desiredSvc.Spec) || !reflect.DeepEqual(foundSvc.Annotations, desiredSvc.Annotations) || !reflect.DeepEqual(foundSvc.Labels, desiredSvc.Labels) {
+	if !serviceSpecEqual(&foundSvc.Spec, &desiredSvc.Spec) || !reflect.DeepEqual(foundSvc.Annotations, desiredSvc.Annotations) || !reflect.DeepEqual(foundSvc.Labels, desiredSvc.Labels) {
 		logger.Info("Updating existing Service", "Service.Namespace", foundSvc.Namespace, "Service.Name", foundSvc.Name)
 		foundSvc.Spec = desiredSvc.Spec
 		foundSvc.Annotations = desiredSvc.Annotations
@@ -226,6 +241,13 @@ func (r *CascadeAutoOperatorReconciler) Reconcile(ctx context.Context, req ctrl.
 			return ctrl.Result{}, err
 		}
 		return ctrl.Result{Requeue: true}, nil
+	}
+	// Update status to reflect successful reconciliation
+	instance.Status.Result = "reconciliation succeeded"
+	instance.Status.Active = found.Status.ReadyReplicas
+	if err := r.Status().Update(ctx, instance); err != nil {
+		logger.Error(err, "Failed to update status after successful reconciliation")
+		return ctrl.Result{}, err
 	}
 	return ctrl.Result{}, nil
 }
@@ -239,6 +261,42 @@ func (r *CascadeAutoOperatorReconciler) SetupWithManager(mgr ctrl.Manager) error
 		Owns(&corev1.Service{}).
 		WithEventFilter(predicate.GenerationChangedPredicate{}).
 		Complete(r)
+}
+
+// validateSpec performs comprehensive validation of the CascadeAutoOperator CR spec
+// before any resource processing occurs. Returns a slice of validation errors;
+// an empty slice means the spec is valid.
+func (r *CascadeAutoOperatorReconciler) validateSpec(instance *cascadev1alpha1.CascadeAutoOperator) []error {
+	var errs []error
+
+	// Validate ScenarioConfig has at least one CascadeModule
+	modules := instance.Spec.ScenarioConfig.CascadeModules
+	if len(modules) == 0 {
+		errs = append(errs, fmt.Errorf("scenarioconfig.cascademodules must contain at least one module"))
+	}
+
+	// Validate each CascadeModule has a non-empty ModuleName
+	for i, mod := range modules {
+		if mod.ModuleName == "" {
+			errs = append(errs, fmt.Errorf("scenarioconfig.cascademodules[%d].modulename must not be empty", i))
+		}
+	}
+
+	// Validate pod template has at least one container
+	containers := instance.Spec.Template.Spec.Containers
+	if len(containers) == 0 {
+		errs = append(errs, fmt.Errorf("template.spec.containers must contain at least one container"))
+	}
+
+	// Validate pod template has at least one volume for config mount
+	volumes := instance.Spec.Template.Spec.Volumes
+	if len(volumes) == 0 {
+		errs = append(errs, fmt.Errorf("template.spec.volumes must contain at least one volume for config mount"))
+	} else if volumes[0].ConfigMap == nil {
+		errs = append(errs, fmt.Errorf("template.spec.volumes[0] must be a ConfigMap volume for config mount"))
+	}
+
+	return errs
 }
 
 func (r *CascadeAutoOperatorReconciler) createDeployment(instance *cascadev1alpha1.CascadeAutoOperator, ctx context.Context, logger *logr.Logger) (*apps.Deployment, error) {
@@ -348,6 +406,24 @@ func (r *CascadeAutoOperatorReconciler) getService(instance *cascadev1alpha1.Cas
 
 func labelsForCascadeAutoOperator(name_app string, name_cr string) map[string]string {
 	return map[string]string{"app": name_app, "cascadeautooperator_cr": name_cr}
+}
+
+// deploymentSpecEqual uses semantic equality to compare Deployment specs,
+// ignoring API server defaults (e.g. Strategy, RevisionHistoryLimit).
+func deploymentSpecEqual(a, b *apps.DeploymentSpec) bool {
+	if a == nil || b == nil {
+		return a == nil && b == nil
+	}
+	return apiequality.Semantic.DeepDerivative(b, a)
+}
+
+// serviceSpecEqual uses semantic equality to compare Service specs,
+// ignoring API server defaults (e.g. ClusterIP, SessionAffinity).
+func serviceSpecEqual(a, b *corev1.ServiceSpec) bool {
+	if a == nil || b == nil {
+		return a == nil && b == nil
+	}
+	return apiequality.Semantic.DeepDerivative(b, a)
 }
 
 func (reconciler *CascadeAutoOperatorReconciler) finalizeApplication(ctx context.Context, application *cascadev1alpha1.CascadeAutoOperator) {
