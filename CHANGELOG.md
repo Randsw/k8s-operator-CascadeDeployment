@@ -1,3 +1,15 @@
+## [1.5.0](https://github.com/Randsw/k8s-operator-CascadeDeployment/compare/1.4.7...1.5.0) (2026-07-20)
+
+
+### 🚀 Features
+
+* Update resources after CR spec updated ([f103281](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/f103281135bcf4e77258a0622374b37bb4ddd178))
+
+
+### 🛠 Fixes
+
+* Fix compare CR spec ([0331d29](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/0331d29746902db25ad24ad9e0cd2b516e0adacd))
+
 ## [1.4.7](https://github.com/Randsw/k8s-operator-CascadeDeployment/compare/1.4.6...1.4.7) (2026-07-20)
 
 
