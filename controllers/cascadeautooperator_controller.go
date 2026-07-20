@@ -19,6 +19,7 @@ package controllers
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 
 	apps "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
@@ -109,7 +110,11 @@ func (r *CascadeAutoOperatorReconciler) Reconcile(ctx context.Context, req ctrl.
 	err = r.Get(ctx, types.NamespacedName{Name: instance.Name + "-deploy", Namespace: instance.Namespace}, found)
 	if err != nil && errors.IsNotFound(err) {
 		// Define a new Deployment
-		deployment := r.createDeployment(instance, ctx, &logger)
+		deployment, err := r.createDeployment(instance, ctx, &logger)
+		if err != nil {
+			logger.Error(err, "Failed to create Deployment spec")
+			return ctrl.Result{}, err
+		}
 		// Increment instance count
 		monitoring.CascadeAutoCurrentInstanceCount.Inc()
 		logger.Info("Creating a new Deployment", "Deployment.Namespace", deployment.Namespace, "Deployment.Name", deployment.Name)
@@ -145,7 +150,11 @@ func (r *CascadeAutoOperatorReconciler) Reconcile(ctx context.Context, req ctrl.
 	foundSvc := &corev1.Service{}
 	err = r.Get(ctx, types.NamespacedName{Name: instance.Name, Namespace: instance.Namespace}, foundSvc)
 	if err != nil && errors.IsNotFound(err) {
-		svc := r.getService(instance, &logger)
+		svc, err := r.getService(instance, &logger)
+		if err != nil {
+			logger.Error(err, "Failed to create Service spec")
+			return ctrl.Result{}, err
+		}
 		logger.Info("Creating a new Service", "Service.Namespace", svc.Namespace, "Service.Name", svc.Name)
 		err = r.Create(ctx, svc)
 		if err != nil {
@@ -172,7 +181,7 @@ func (r *CascadeAutoOperatorReconciler) SetupWithManager(mgr ctrl.Manager) error
 		Complete(r)
 }
 
-func (r *CascadeAutoOperatorReconciler) createDeployment(instance *cascadev1alpha1.CascadeAutoOperator, ctx context.Context, logger *logr.Logger) *apps.Deployment {
+func (r *CascadeAutoOperatorReconciler) createDeployment(instance *cascadev1alpha1.CascadeAutoOperator, ctx context.Context, logger *logr.Logger) (*apps.Deployment, error) {
 	ls := labelsForCascadeAutoOperator(instance.Name, instance.Name)
 	replicas := instance.Spec.Replicas
 
@@ -180,6 +189,9 @@ func (r *CascadeAutoOperatorReconciler) createDeployment(instance *cascadev1alph
 
 	podSpec.Labels = ls
 
+	if len(podSpec.Spec.Volumes) == 0 {
+		return nil, fmt.Errorf("pod template must have at least one volume for config mount")
+	}
 	podSpec.Spec.Volumes[0].ConfigMap.Name = instance.Name + "-cm"
 	// Use special service account for cascade scenarion controller. SA created by heml-chart
 	podSpec.Spec.ServiceAccountName = "cascade-scenario"
@@ -204,7 +216,7 @@ func (r *CascadeAutoOperatorReconciler) createDeployment(instance *cascadev1alph
 	if err != nil {
 		logger.Error(err, "Failed to set CascadeAutoOperator instance as the owner and controller")
 	}
-	return dep
+	return dep, nil
 }
 
 // Create configmap for scenario controller
@@ -229,7 +241,10 @@ func (r *CascadeAutoOperatorReconciler) getCm(instance *cascadev1alpha1.CascadeA
 }
 
 // Create service for scenario controller
-func (r *CascadeAutoOperatorReconciler) getService(instance *cascadev1alpha1.CascadeAutoOperator, logger *logr.Logger) *corev1.Service {
+func (r *CascadeAutoOperatorReconciler) getService(instance *cascadev1alpha1.CascadeAutoOperator, logger *logr.Logger) (*corev1.Service, error) {
+	if len(instance.Spec.Template.Spec.Containers) == 0 {
+		return nil, fmt.Errorf("pod template must have at least one container")
+	}
 	var source string
 	for _, envar := range instance.Spec.Template.Spec.Containers[0].Env {
 		if envar.Name == "SID" {
@@ -259,7 +274,7 @@ func (r *CascadeAutoOperatorReconciler) getService(instance *cascadev1alpha1.Cas
 	if err != nil {
 		logger.Error(err, "Failed to set CascadeAutoOperator instance as the owner and controller for service")
 	}
-	return svc
+	return svc, nil
 }
 
 func labelsForCascadeAutoOperator(name_app string, name_cr string) map[string]string {
