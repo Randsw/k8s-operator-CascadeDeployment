@@ -20,6 +20,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"reflect"
 
 	apps "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
@@ -45,7 +46,7 @@ type CascadeAutoOperatorReconciler struct {
 	Scheme *runtime.Scheme
 }
 
-// Finalizer for metrcis scrape
+// Finalizer for metrics scrape
 const finalizer = "metrics.cascade.cascade.net/finalizer"
 
 //+kubebuilder:rbac:groups=cascade.cascade.net,resources=cascadeautooperators,verbs=get;list;watch;create;update;patch;delete
@@ -97,9 +98,10 @@ func (r *CascadeAutoOperatorReconciler) Reconcile(ctx context.Context, req ctrl.
 		if controllerutil.ContainsFinalizer(instance, finalizer) {
 			r.finalizeApplication(ctx, instance)
 			controllerutil.RemoveFinalizer(instance, finalizer)
-			err := r.Update(ctx, instance)
-			if err != nil {
-				return ctrl.Result{}, err
+			if err := r.Update(ctx, instance); err != nil {
+				logger.Error(err, "Failed to remove finalizer")
+				// Requeue to retry finalizer removal
+				return ctrl.Result{Requeue: true}, nil
 			}
 		}
 		return ctrl.Result{}, nil
@@ -115,14 +117,14 @@ func (r *CascadeAutoOperatorReconciler) Reconcile(ctx context.Context, req ctrl.
 			logger.Error(err, "Failed to create Deployment spec")
 			return ctrl.Result{}, err
 		}
-		// Increment instance count
-		monitoring.CascadeAutoCurrentInstanceCount.Inc()
 		logger.Info("Creating a new Deployment", "Deployment.Namespace", deployment.Namespace, "Deployment.Name", deployment.Name)
 		err = r.Create(ctx, deployment)
 		if err != nil {
 			logger.Error(err, "Failed to create new Deployment", "Deployment.Namespace", deployment.Namespace, "Deployment.Name", deployment.Name)
 			return ctrl.Result{}, err
 		}
+		// Increment instance count only after successful creation
+		monitoring.SafeIncrement()
 		// Deployment created successfully - return and requeue
 		return ctrl.Result{Requeue: true}, nil
 	} else if err != nil {
@@ -130,10 +132,31 @@ func (r *CascadeAutoOperatorReconciler) Reconcile(ctx context.Context, req ctrl.
 		return ctrl.Result{}, err
 	}
 
+	// Deployment exists - check if update is needed
+	desiredDeployment, err := r.createDeployment(instance, ctx, &logger)
+	if err != nil {
+		logger.Error(err, "Failed to create desired Deployment spec for comparison")
+		return ctrl.Result{}, err
+	}
+	if !reflect.DeepEqual(found.Spec, desiredDeployment.Spec) {
+		logger.Info("Updating existing Deployment", "Deployment.Namespace", found.Namespace, "Deployment.Name", found.Name)
+		found.Spec = desiredDeployment.Spec
+		err = r.Update(ctx, found)
+		if err != nil {
+			logger.Error(err, "Failed to update Deployment", "Deployment.Namespace", found.Namespace, "Deployment.Name", found.Name)
+			return ctrl.Result{}, err
+		}
+		return ctrl.Result{Requeue: true}, nil
+	}
+
 	foundMap := &corev1.ConfigMap{}
 	err = r.Get(ctx, types.NamespacedName{Name: instance.Name + "-cm", Namespace: instance.Namespace}, foundMap)
 	if err != nil && errors.IsNotFound(err) {
-		cm := r.getCm(instance, &logger)
+		cm, err := r.getCm(instance, &logger)
+		if err != nil {
+			logger.Error(err, "Failed to create ConfigMap spec")
+			return ctrl.Result{}, err
+		}
 		logger.Info("Creating a new ConfigMap", "ConfigMap.Namespace", cm.Namespace, "ConfigMap.Name", cm.Name)
 		err = r.Create(ctx, cm)
 		if err != nil {
@@ -145,6 +168,24 @@ func (r *CascadeAutoOperatorReconciler) Reconcile(ctx context.Context, req ctrl.
 	} else if err != nil {
 		logger.Error(err, "Failed to get ConfigMap")
 		return ctrl.Result{}, err
+	}
+
+	// ConfigMap exists - check if update is needed
+	desiredCm, err := r.getCm(instance, &logger)
+	if err != nil {
+		logger.Error(err, "Failed to create desired ConfigMap spec for comparison")
+		return ctrl.Result{}, err
+	}
+	if !reflect.DeepEqual(foundMap.Data, desiredCm.Data) || !reflect.DeepEqual(foundMap.Labels, desiredCm.Labels) {
+		logger.Info("Updating existing ConfigMap", "ConfigMap.Namespace", foundMap.Namespace, "ConfigMap.Name", foundMap.Name)
+		foundMap.Data = desiredCm.Data
+		foundMap.Labels = desiredCm.Labels
+		err = r.Update(ctx, foundMap)
+		if err != nil {
+			logger.Error(err, "Failed to update ConfigMap", "ConfigMap.Namespace", foundMap.Namespace, "ConfigMap.Name", foundMap.Name)
+			return ctrl.Result{}, err
+		}
+		return ctrl.Result{Requeue: true}, nil
 	}
 
 	foundSvc := &corev1.Service{}
@@ -166,6 +207,25 @@ func (r *CascadeAutoOperatorReconciler) Reconcile(ctx context.Context, req ctrl.
 	} else if err != nil {
 		logger.Error(err, "Failed to get Service")
 		return ctrl.Result{}, err
+	}
+
+	// Service exists - check if update is needed
+	desiredSvc, err := r.getService(instance, &logger)
+	if err != nil {
+		logger.Error(err, "Failed to create desired Service spec for comparison")
+		return ctrl.Result{}, err
+	}
+	if !reflect.DeepEqual(foundSvc.Spec, desiredSvc.Spec) || !reflect.DeepEqual(foundSvc.Annotations, desiredSvc.Annotations) || !reflect.DeepEqual(foundSvc.Labels, desiredSvc.Labels) {
+		logger.Info("Updating existing Service", "Service.Namespace", foundSvc.Namespace, "Service.Name", foundSvc.Name)
+		foundSvc.Spec = desiredSvc.Spec
+		foundSvc.Annotations = desiredSvc.Annotations
+		foundSvc.Labels = desiredSvc.Labels
+		err = r.Update(ctx, foundSvc)
+		if err != nil {
+			logger.Error(err, "Failed to update Service", "Service.Namespace", foundSvc.Namespace, "Service.Name", foundSvc.Name)
+			return ctrl.Result{}, err
+		}
+		return ctrl.Result{Requeue: true}, nil
 	}
 	return ctrl.Result{}, nil
 }
@@ -192,6 +252,9 @@ func (r *CascadeAutoOperatorReconciler) createDeployment(instance *cascadev1alph
 	if len(podSpec.Spec.Volumes) == 0 {
 		return nil, fmt.Errorf("pod template must have at least one volume for config mount")
 	}
+	if podSpec.Spec.Volumes[0].ConfigMap == nil {
+		return nil, fmt.Errorf("first volume must be a ConfigMap volume for config mount")
+	}
 	podSpec.Spec.Volumes[0].ConfigMap.Name = instance.Name + "-cm"
 	// Use special service account for cascade scenarion controller. SA created by heml-chart
 	podSpec.Spec.ServiceAccountName = "cascade-scenario"
@@ -215,13 +278,17 @@ func (r *CascadeAutoOperatorReconciler) createDeployment(instance *cascadev1alph
 	err := ctrl.SetControllerReference(instance, dep, r.Scheme)
 	if err != nil {
 		logger.Error(err, "Failed to set CascadeAutoOperator instance as the owner and controller")
+		return nil, err
 	}
 	return dep, nil
 }
 
 // Create configmap for scenario controller
-func (r *CascadeAutoOperatorReconciler) getCm(instance *cascadev1alpha1.CascadeAutoOperator, logger *logr.Logger) *corev1.ConfigMap {
-	data, _ := json.Marshal(instance.Spec.ScenarioConfig)
+func (r *CascadeAutoOperatorReconciler) getCm(instance *cascadev1alpha1.CascadeAutoOperator, logger *logr.Logger) (*corev1.ConfigMap, error) {
+	data, err := json.Marshal(instance.Spec.ScenarioConfig)
+	if err != nil {
+		return nil, fmt.Errorf("failed to marshal scenario config: %w", err)
+	}
 	cm := &corev1.ConfigMap{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      instance.Name + "-cm",
@@ -233,11 +300,12 @@ func (r *CascadeAutoOperatorReconciler) getCm(instance *cascadev1alpha1.CascadeA
 		},
 	}
 
-	err := ctrl.SetControllerReference(instance, cm, r.Scheme)
+	err = ctrl.SetControllerReference(instance, cm, r.Scheme)
 	if err != nil {
 		logger.Error(err, "Failed to set CascadeAutoOperator instance as the owner and for configMap")
+		return nil, err
 	}
-	return cm
+	return cm, nil
 }
 
 // Create service for scenario controller
@@ -273,6 +341,7 @@ func (r *CascadeAutoOperatorReconciler) getService(instance *cascadev1alpha1.Cas
 	err := ctrl.SetControllerReference(instance, svc, r.Scheme)
 	if err != nil {
 		logger.Error(err, "Failed to set CascadeAutoOperator instance as the owner and controller for service")
+		return nil, err
 	}
 	return svc, nil
 }
@@ -282,5 +351,6 @@ func labelsForCascadeAutoOperator(name_app string, name_cr string) map[string]st
 }
 
 func (reconciler *CascadeAutoOperatorReconciler) finalizeApplication(ctx context.Context, application *cascadev1alpha1.CascadeAutoOperator) {
-	monitoring.CascadeAutoCurrentInstanceCount.Dec()
+	// SafeDecrement protects the metrics gauge from going negative
+	monitoring.SafeDecrement()
 }

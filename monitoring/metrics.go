@@ -1,6 +1,8 @@
 package monitoring
 
 import (
+	"sync"
+
 	"github.com/prometheus/client_golang/prometheus"
 	"sigs.k8s.io/controller-runtime/pkg/metrics"
 )
@@ -23,6 +25,10 @@ var metricDescription = map[string]MetricDescription{
 }
 
 var (
+	// cascadeAutoInstanceCountMutex protects the gauge from going negative.
+	cascadeAutoInstanceCountMutex sync.Mutex
+	// cascadeAutoInstanceCount tracks the current value for safe decrement.
+	cascadeAutoInstanceCount int64
 	// MemcachedDeploymentSizeUndesiredCountTotal will count how many times was required
 	// to perform the operation to ensure that the number of replicas on the cluster
 	// is the same as the quantity desired and specified via the custom resource size spec.
@@ -37,4 +43,23 @@ var (
 // RegisterMetrics will register metrics with the global prometheus registry
 func RegisterMetrics() {
 	metrics.Registry.MustRegister(CascadeAutoCurrentInstanceCount)
+}
+
+// SafeIncrement increments the instance count gauge and internal counter.
+func SafeIncrement() {
+	cascadeAutoInstanceCountMutex.Lock()
+	defer cascadeAutoInstanceCountMutex.Unlock()
+	cascadeAutoInstanceCount++
+	CascadeAutoCurrentInstanceCount.Inc()
+}
+
+// SafeDecrement decrements the instance count gauge and internal counter,
+// protecting against going negative.
+func SafeDecrement() {
+	cascadeAutoInstanceCountMutex.Lock()
+	defer cascadeAutoInstanceCountMutex.Unlock()
+	if cascadeAutoInstanceCount > 0 {
+		cascadeAutoInstanceCount--
+		CascadeAutoCurrentInstanceCount.Dec()
+	}
 }
