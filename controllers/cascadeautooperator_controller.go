@@ -180,7 +180,7 @@ func (r *CascadeAutoOperatorReconciler) Reconcile(ctx context.Context, req ctrl.
 			return ctrl.Result{}, err
 		}
 		// ConfigMap created successfully - return and requeue
-		return ctrl.Result{Requeue: true}, nil
+		return ctrl.Result{RequeueAfter: time.Second}, nil
 	} else if err != nil {
 		logger.Error(err, "Failed to get ConfigMap")
 		return ctrl.Result{}, err
@@ -201,7 +201,7 @@ func (r *CascadeAutoOperatorReconciler) Reconcile(ctx context.Context, req ctrl.
 			logger.Error(err, "Failed to update ConfigMap", "ConfigMap.Namespace", foundMap.Namespace, "ConfigMap.Name", foundMap.Name)
 			return ctrl.Result{}, err
 		}
-		return ctrl.Result{Requeue: true}, nil
+		return ctrl.Result{RequeueAfter: time.Second}, nil
 	}
 
 	foundSvc := &corev1.Service{}
@@ -219,7 +219,7 @@ func (r *CascadeAutoOperatorReconciler) Reconcile(ctx context.Context, req ctrl.
 			return ctrl.Result{}, err
 		}
 		// Service created successfully - return and requeue
-		return ctrl.Result{Requeue: true}, nil
+		return ctrl.Result{RequeueAfter: time.Second}, nil
 	} else if err != nil {
 		logger.Error(err, "Failed to get Service")
 		return ctrl.Result{}, err
@@ -241,7 +241,7 @@ func (r *CascadeAutoOperatorReconciler) Reconcile(ctx context.Context, req ctrl.
 			logger.Error(err, "Failed to update Service", "Service.Namespace", foundSvc.Namespace, "Service.Name", foundSvc.Name)
 			return ctrl.Result{}, err
 		}
-		return ctrl.Result{Requeue: true}, nil
+		return ctrl.Result{RequeueAfter: time.Second}, nil
 	}
 	// Update status to reflect successful reconciliation
 	instance.Status.Result = "reconciliation succeeded"
