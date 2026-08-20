@@ -1,3 +1,34 @@
+## [1.5.1](https://github.com/Randsw/k8s-operator-CascadeDeployment/compare/1.5.0...1.5.1) (2026-08-20)
+
+
+### 📔 Docs
+
+* new improved readme ([4cc4e6d](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/4cc4e6d076bb87f735f0b5d081b4c99c4a5fef6e))
+
+
+### 🧪 Tests
+
+* Add more tests ([21c60a5](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/21c60a56da66b5900dc7a6b1c178332e5667dcb0))
+* Remove deprecated function ([ef1cfed](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/ef1cfedbebc6d397156bcda75af8a8e198de0a7e))
+
+
+### 🛠 Fixes
+
+* Fix linter issue ([45f7fbc](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/45f7fbc451c4ebf892c53b37204fa76b7ec7ad67))
+* Remove deprecated function ([fe45731](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/fe457315c64a91cc1109e98f79179a63dcd098fa))
+
+
+### Other
+
+* **deps:** bump actions/setup-python from 6 to 7 ([57ae833](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/57ae8332105cfb9aaa39897d6502d7a228870c0c))
+* **deps:** bump docker/login-action from 4 to 4.5.2 ([e2de0d9](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/e2de0d9f726035c5c64f16361e963a9630f4a3dc))
+* **deps:** bump docker/login-action from 4.5.2 to 4.6.0 ([e343854](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/e343854f4674674efc946fcafd4ba6ea041169f0))
+* **deps:** bump github.com/go-logr/logr from 1.4.3 to 1.4.4 ([f8816eb](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/f8816eb9caccffc17b69baff727bfe4c49b218f4))
+* **deps:** bump github.com/onsi/ginkgo/v2 from 2.32.0 to 2.32.1 ([9a7662c](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/9a7662cc6357f91a5bf486e0f4f0d0d04c39716c))
+* **deps:** bump github.com/prometheus/client_golang ([db08a55](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/db08a5526a5d28d12f5e7ce19df66e99f2e5df8e))
+* **deps:** bump github.com/prometheus/client_golang ([96adc7c](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/96adc7c1b310969dd32303fc516ed14a1049d989))
+* **deps:** bump k8s.io/client-go from 0.36.2 to 0.36.3 ([8b5f9d2](https://github.com/Randsw/k8s-operator-CascadeDeployment/commit/8b5f9d236e2ba5ee200ec284e5de1d872b73f0ca))
+
 ## [1.5.0](https://github.com/Randsw/k8s-operator-CascadeDeployment/compare/1.4.7...1.5.0) (2026-07-20)
 
 
